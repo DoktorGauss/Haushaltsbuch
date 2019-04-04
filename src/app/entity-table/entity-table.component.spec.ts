@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DataHandlerComponent } from './data-handler.component';
+import { EntityTableComponent } from './entity-table.component';
 
-describe('DataHandlerComponent', () => {
-  let component: DataHandlerComponent;
-  let fixture: ComponentFixture<DataHandlerComponent>;
+describe('EntityTableComponent', () => {
+  let component: EntityTableComponent;
+  let fixture: ComponentFixture<EntityTableComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DataHandlerComponent ]
+      declarations: [ EntityTableComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DataHandlerComponent);
+    fixture = TestBed.createComponent(EntityTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

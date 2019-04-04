@@ -1,17 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { PageSettingsModel } from '@syncfusion/ej2-grids';
-import { ColorPicker } from '@syncfusion/ej2-inputs';
 
 @Component({
-  selector: 'app-data-handler',
-  templateUrl: './data-handler.component.html',
-  styleUrls: ['./data-handler.component.css']
+  selector: 'app-entity-table',
+  templateUrl: './entity-table.component.html',
+  styleUrls: ['./entity-table.component.css']
 })
-export class DataHandlerComponent implements OnInit {
+export class EntityTableComponent implements OnInit {
+
   public data: any[];
   public filterSettings: Object;
   public height;
-  public pageSettings: PageSettingsModel;
   public textfield: string;
   // [allowPaging]='allowPaging' [allowSorting]='allowSorting' [allowFiltering]='allowFiltering'
   public allowPaging = true;
@@ -74,7 +72,6 @@ export class DataHandlerComponent implements OnInit {
     this.allowPaging=true;
     this.allowSorting=true;
   }
-
 
 
 }

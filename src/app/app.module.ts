@@ -6,16 +6,16 @@ import { AppComponent } from './app.component';
 
 
 import { GridModule } from '@syncfusion/ej2-angular-grids';
-import { DataHandlerComponent } from './data-handler/data-handler.component';
 import { PageService, SortService, FilterService, GroupService } from '@syncfusion/ej2-angular-grids';
 import { ScanBillComponent } from './scan-bill/scan-bill.component';
+import { EntityTableComponent } from './entity-table/entity-table.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    DataHandlerComponent,
-    ScanBillComponent
+    ScanBillComponent,
+    EntityTableComponent
   ],
   imports: [
     BrowserModule,
