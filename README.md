@@ -25,3 +25,24 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## syncfusion ==> Nice Data grid
+from: https://www.syncfusion.com/kb/9685/how-to-get-started-easily-with-syncfusion-angular-7-data-grid
+           npm install @syncfusion/ej2-angular-grids --save 
+           npm install @syncfusion/ej2 --save 
+
+

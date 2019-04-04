@@ -1,0 +1,39 @@
+<ejs-grid  [dataSource]='data' [height]="height" [allowPaging]='allowPaging' [allowSorting]='allowSorting' [allowFiltering]='allowFiltering' >
+  <e-columns>
+      <e-column field='DataID' headerText='ID' textAlign='Left' width='50'></e-column>
+      <e-column field='PID' headerText='ProduktID' textAlign='Left' width='70'></e-column>
+      <e-column field='ProductName' headerText='Produkt Name' textAlign='center' width='120'></e-column>
+      <e-column field='Menge' headerText='Menge' textAlign='center'  width='50'></e-column>
+      <e-column field='PreisPS' headerText='Preis Stück[€]' textAlign='right' format='n3' width='70'></e-column>
+      <!-- <e-column field='Preis' headerText='Preis insgesamt' format='c' width='140'></e-column> -->
+      <e-column field='Preis' headerText='Preis insgesamt[€]' format='n3' textAlign='right'  width='70'></e-column>
+  </e-columns>
+  
+</ejs-grid> 
+<table id="ActionTable">
+  <tr>
+    <td class="left_button_cell"><button  class="inner_button" id="Button1" mat-button  (click)="minimizeTable()">up</button></td>
+    <td class="left_button_cell"><button  class="inner_button" id="Button2" mat-button  (click)="maximizeTable()">down</button></td>
+    <td class="example1"><p id="P2">{{textfield}}</p></td>
+  </tr>
+</table> 
+
+<!-- 
+<table class="my_table">
+  <tbody>
+    <tr>
+      <td class="left_button_cell">
+        <a class="inner_button" href="#">
+          <span>up
+                  </span>
+        </a>
+      </td>
+      <td class="right_button_cell">
+        <a class="inner_button" href="#">
+          <span>down</span>
+        </a>
+      </td>
+      <td><p id="P2">{{textfield}}</p></td>
+    </tr>
+  </tbody>
+</table> -->
