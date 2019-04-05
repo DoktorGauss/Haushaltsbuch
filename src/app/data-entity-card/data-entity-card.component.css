@@ -1,0 +1,96 @@
+#CardDiv{
+    min-width: 15px;
+    max-width: 200px;
+    width: 200px;
+    min-height: 10px;
+    max-height: 50px;
+    height: 50px;
+}
+
+#WertDiv{
+    float: left;
+    min-width: 5px;
+    max-width: 100px;
+    width: 100px;
+    min-height: 10px;
+    max-height: 50px;
+    height: 50px;
+    background-color: aqua;
+}
+
+WertDiv_pressed{
+    float: left;
+    min-width: 5px;
+    max-width: 25px;
+    width: 25px;
+    min-height: 10px;
+    max-height: 50px;
+    height: 50px;
+    background-color: aqua;
+}
+
+
+
+#FutureDiv{
+    float: left;
+    min-width: 1px;
+    max-width: 190px;
+    width: 50px;
+    min-height: 10px;
+    max-height: 50px;
+    height: 50px;
+    background-color: blueviolet;
+}
+
+FutureDiv_pressed{
+    float: left;
+    min-width: 1px;
+    max-width: 25px;
+    width: 25px;
+    min-height: 10px;
+    max-height: 50px;
+    height: 50px;
+    background-color: blueviolet;
+}
+FutureDiv_expand{
+    float: left;
+    min-width: 1px;
+    max-width: 150px;
+    width: 150px;
+    min-height: 10px;
+    max-height: 50px;
+    height: 50px;
+    background-color: blueviolet;
+}
+
+#PastDiv{
+    float: left;
+    min-width: 1px;
+    max-width: 190px;
+    width: 50px;
+    min-height: 10px;
+    max-height: 50px;
+    height: 50px;
+    background-color: teal;
+}
+
+PastDiv_pressed{
+    float: left;
+    min-width: 1px;
+    max-width: 25px;
+    width: 25px;
+    min-height: 10px;
+    max-height: 50px;
+    height: 50px;
+    background-color: teal;
+}
+PastDiv_expand{
+    float: left;
+    min-width: 1px;
+    max-width: 150px;
+    width: 150px;
+    min-height: 10px;
+    max-height: 50px;
+    height: 50px;
+    background-color: teal;
+}
