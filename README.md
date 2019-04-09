@@ -1,8 +1,8 @@
 
 # Download and use
-1. download git
-2. download nodejs
-3. Open VS Code
+1. download git https://git-scm.com/downloads
+2. download nodejs https://nodejs.org/en/download/
+3. Open VS Code or download  https://code.visualstudio.com/Download
 4. Choose a folder
 5. Im Terminal: git clone https://github.com/DoktorGauss/Haushaltsbuch.git
 6. Im Terminal: npm install
