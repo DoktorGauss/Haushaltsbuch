@@ -1,3 +1,20 @@
+
+# Download and use
+1. download git
+2. download nodejs
+3. Open VS Code
+4. Choose a folder
+5. Im Terminal: git clone https://github.com/DoktorGauss/Haushaltsbuch.git
+6. Im Terminal: npm install
+7. Im Terminal: ng serve --open
+
+
+
+
+
+
+
+
 # Haushaltsbuch
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.3.
@@ -44,5 +61,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 from: https://www.syncfusion.com/kb/9685/how-to-get-started-easily-with-syncfusion-angular-7-data-grid
            npm install @syncfusion/ej2-angular-grids --save 
            npm install @syncfusion/ej2 --save 
+
+
 
 
