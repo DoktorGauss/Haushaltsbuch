@@ -1,96 +1,71 @@
 #CardDiv{
     min-width: 15px;
-    max-width: 200px;
-    width: 200px;
-    min-height: 10px;
-    max-height: 50px;
-    height: 50px;
+    max-width: 300px;
+    width: auto;
+    min-height: 50px;
+    max-height: 100px;
+    height: 59px;
 }
 
 #WertDiv{
     float: left;
+    border-width: 2px;
+    border-color: black;
+    border-style: solid;
     min-width: 5px;
     max-width: 100px;
     width: 100px;
-    min-height: 10px;
-    max-height: 50px;
-    height: 50px;
-    background-color: aqua;
+    height: 100%;
+    background-color: rgb(167, 165, 96);
 }
 
-WertDiv_pressed{
+
+
+#PastDiv{
     float: left;
-    min-width: 5px;
-    max-width: 25px;
-    width: 25px;
-    min-height: 10px;
-    max-height: 50px;
-    height: 50px;
-    background-color: aqua;
+    border-width: 1px;
+    border-color: black;
+    border-style: solid;
+    min-width: 1px;
+    max-width: 190px;
+    width: 50px;
+    height: 100%;
+    background-color: rgb(182, 233, 193);
 }
-
 
 
 #FutureDiv{
     float: left;
+    border-width: 1px;
+    border-color: black;
+    border-style: solid;
     min-width: 1px;
     max-width: 190px;
     width: 50px;
-    min-height: 10px;
-    max-height: 50px;
-    height: 50px;
-    background-color: blueviolet;
+    height: 100%;
+    background-color: rgb(221, 178, 154);
 }
 
-FutureDiv_pressed{
-    float: left;
-    min-width: 1px;
-    max-width: 25px;
-    width: 25px;
-    min-height: 10px;
-    max-height: 50px;
-    height: 50px;
-    background-color: blueviolet;
-}
-FutureDiv_expand{
-    float: left;
-    min-width: 1px;
-    max-width: 150px;
-    width: 150px;
-    min-height: 10px;
-    max-height: 50px;
-    height: 50px;
-    background-color: blueviolet;
+
+/* <p style="text-align: center; height: 50px; margin: 5px"> {{Value}}</p>
+    <p style="text-align: center; color: orange; height: 20px; margin: 5 px"> {{DurchschnittValue}}</p> */
+
+#ValueP{
+    text-align: center;
+    height: 20px;
+    margin: 5px;
+    color: rgb(233, 225, 225);
+    border-width: 1pt;
+    border-color: bisque;
+    border-style: groove;
 }
 
-#PastDiv{
-    float: left;
-    min-width: 1px;
-    max-width: 190px;
-    width: 50px;
-    min-height: 10px;
-    max-height: 50px;
-    height: 50px;
-    background-color: teal;
-}
-
-PastDiv_pressed{
-    float: left;
-    min-width: 1px;
-    max-width: 25px;
-    width: 25px;
-    min-height: 10px;
-    max-height: 50px;
-    height: 50px;
-    background-color: teal;
-}
-PastDiv_expand{
-    float: left;
-    min-width: 1px;
-    max-width: 150px;
-    width: 150px;
-    min-height: 10px;
-    max-height: 50px;
-    height: 50px;
-    background-color: teal;
+#DurchschnittsValueP{
+    text-align: center;
+    color: rgb(207, 191, 191);
+    height: 20px;
+    margin: 5px;
+    border-width: 1pt;
+    border-color: bisque;
+    border-style: groove;
 }

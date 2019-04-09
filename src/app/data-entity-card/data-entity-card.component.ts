@@ -13,6 +13,7 @@ export class DataEntityCardComponent implements AfterViewInit {
   @Input() dataEntityCard:DataEntityCard;
   Value = 50;
   ProduktName = "Milch";
+  DurchschnittValue = 50;
   // @Output() click = new EventEmitter<DataEntityCard>();
   
   constructor(private   LineService : LineService) {
