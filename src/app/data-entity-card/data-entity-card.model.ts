@@ -1,4 +1,5 @@
 import { DataEntity } from '../data-entity/data-entity.model';
+import { Type } from '@angular/core';
 
 
 
@@ -9,9 +10,6 @@ export class DataEntityCard {
     PastValues: DataEntity[];
     PostValue: DataEntity;
 
-    constructor(v : DataEntity, paV : DataEntity[], poV : DataEntity){
-        this.Value = v;
-        this.PastValues = paV;
-        this.PostValue = poV;
+    constructor(public component: Type<any>){
     }
 }

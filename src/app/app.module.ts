@@ -1,18 +1,14 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatListModule,MatButtonModule, MatCheckboxModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
-
-import { GridModule } from '@syncfusion/ej2-angular-grids';
-import { PageService, SortService, FilterService, GroupService } from '@syncfusion/ej2-angular-grids';
 import { DataEntityTableComponent } from './data-entity/data-entity-table.component';
 import { DataEntityCardComponent } from './data-entity-card/data-entity-card.component';
 import { DataEntityCardTableComponent } from './data-entity-card-table/data-entity-card-table.component';
-import {MatListModule} from '@angular/material/list';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
-import {MatButtonModule, MatCheckboxModule} from '@angular/material';
+import { AppRoutingModule } from './app-routing.module';
+import { GridModule, GroupService, FilterService, SortService, PageService } from '@syncfusion/ej2-angular-grids';
+
 
 // <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">    in html wenn nice button
 
@@ -21,8 +17,8 @@ import {MatButtonModule, MatCheckboxModule} from '@angular/material';
   declarations: [
     AppComponent,
     DataEntityTableComponent,
-    DataEntityCardComponent,
-    DataEntityCardTableComponent
+    DataEntityCardTableComponent,
+    DataEntityCardComponent
   ],
   imports: [
     BrowserModule,
@@ -37,4 +33,4 @@ import {MatButtonModule, MatCheckboxModule} from '@angular/material';
   bootstrap: [AppComponent]
   // schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class AppModule { }
+export class AppModule { } 

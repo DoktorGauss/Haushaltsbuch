@@ -1,5 +1,6 @@
 import { DataEntityService } from './../providers/data-entity.service';
 import { Component, OnInit } from '@angular/core';
+import { DataEntity } from './data-entity.model';
 @Component({
   selector: 'app-data-entity-table',
   templateUrl: './data-entity-table.component.html',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DataEntityTableComponent implements OnInit {
 
-  public data: any[];
+  public data: DataEntity[];
   public filterSettings: Object;
   public height;
   public textfield: string;
@@ -22,12 +23,11 @@ export class DataEntityTableComponent implements OnInit {
   ) {
     this.height = "400px";
     this.textfield = "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
-    // document.getElementById("pp").style.color = "white";
   }
 
   ngOnInit() {
     this.filterSettings = { type: 'CheckBox' };
-    this.data = this.dataEntityService.getDataEntityList();
+    this.data = this.dataEntityService.dataEntityListJSON;
   }
 
   onKeydown(event) {

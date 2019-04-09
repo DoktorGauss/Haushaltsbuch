@@ -1,16 +1,14 @@
 
 
-
+<p>{{ProduktName}}</p>
 <div id="CardDiv">
   <div id="FutureDiv" (click)="FutureDivExpands($event)">
-
   </div>
 
-  <div id="WertDiv" (click)="NormalDiv()">
+  <div id="WertDiv" (click)="NormalDiv($event)">
     <p style="text-align: center"> {{Value}}</p>
   </div>
   
-  <div id="PastDiv" (click)="PastDivExpands()">
-
+  <div id="PastDiv" (click)="PastDivExpands($event)">
   </div>
 </div>

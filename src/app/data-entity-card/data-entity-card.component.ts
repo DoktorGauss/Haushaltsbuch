@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { DataEntity } from './../data-entity/data-entity.model';
+import { DataEntityCard } from './data-entity-card.model';
+import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { LineService } from '../providers/line.service';
 
 @Component({
@@ -6,32 +8,42 @@ import { LineService } from '../providers/line.service';
   templateUrl: './data-entity-card.component.html',
   styleUrls: ['./data-entity-card.component.css']
 })
-export class DataEntityCardComponent implements OnInit {
+export class DataEntityCardComponent implements AfterViewInit {
 
-  Value = 50.0;
-  Values = [];
+  @Input() dataEntityCard:DataEntityCard;
+  Value = 50;
+  ProduktName = "Milch";
+  // @Output() click = new EventEmitter<DataEntityCard>();
+  
+  constructor(private   LineService : LineService) {
+    
+  }
 
-
-  constructor(private   LineService : LineService) {}
-
-  ngOnInit() {}
+  ngAfterViewInit() 
+  {
+    this.Value = this.dataEntityCard.Value.PreisPS;
+    this.ProduktName = this.dataEntityCard.Value.ProductName;
+  }
 
   public FutureDivExpands(e){
-    document.getElementById("FutureDiv").style.width = "150px";
-    document.getElementById("WertDiv").style.width = "45px";
-    document.getElementById("PastDiv").style.width = "5px";
+    var tmp = e.currentTarget.parentElement.children;
+    tmp[0].style.width = "150px";
+    tmp[1].style.width = "45px";
+    tmp[2].style.width = "5px";
   }
 
-  NormalDiv(){
-    document.getElementById("FutureDiv").style.width = "50px";
-    document.getElementById("WertDiv").style.width = "100px";
-    document.getElementById("PastDiv").style.width = "50px";
+  NormalDiv(e){
+    var tmp = e.currentTarget.parentElement.children;
+    tmp[0].style.width = "50px";
+    tmp[1].style.width = "100px";
+    tmp[2].style.width = "50px";
   }
 
-  PastDivExpands(){
-    document.getElementById("FutureDiv").style.width = "5px";
-    document.getElementById("WertDiv").style.width = "45px";
-    document.getElementById("PastDiv").style.width = "150px";
+  PastDivExpands(e){
+    var tmp = e.currentTarget.parentElement.children;
+    tmp[0].style.width = "5px";
+    tmp[1].style.width = "45px";
+    tmp[2].style.width = "150px";
   }
 
 

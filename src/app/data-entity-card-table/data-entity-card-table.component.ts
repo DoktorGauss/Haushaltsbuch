@@ -1,17 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { LineService } from './../providers/line.service';
+import { Component, OnInit, ViewChild, Injector, Input, TemplateRef, ContentChild, AfterViewInit } from '@angular/core';
 import { DataEntityCardComponent } from '../data-entity-card/data-entity-card.component';
+import { DataEntityCardService } from '../providers/data-entity-card.service';
+import { DataEntityCard } from '../data-entity-card/data-entity-card.model';
+import { createCustomElement } from '@angular/elements';
 
 @Component({
   selector: 'app-data-entity-card-table',
   templateUrl: './data-entity-card-table.component.html',
   styleUrls: ['./data-entity-card-table.component.css']
 })
-export class DataEntityCardTableComponent implements OnInit {
-  public dataEntityCardComponentList: DataEntityCardComponent[];
-  constructor() { }
+export class DataEntityCardTableComponent implements AfterViewInit {
+  // public dataEntityCardComponentList: DataEntityCardComponent[];
+  @Input() dataEntityCardList: DataEntityCard[];
 
-  ngOnInit() {
-    
+  constructor(
+    private dataEntityCardService: DataEntityCardService,
+    private lineService: LineService,
+    private injector: Injector
+  ) { }
+
+  ngAfterViewInit() {
+    this.dataEntityCardList = this.dataEntityCardService.dataEntityCardList;
   }
 
 }
