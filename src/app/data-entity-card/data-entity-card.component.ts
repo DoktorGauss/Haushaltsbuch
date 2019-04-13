@@ -13,6 +13,9 @@ export class DataEntityCardComponent implements AfterViewInit {
   @Input() dataEntityCard:DataEntityCard;
   Value = 50;
   ProduktName = "Milch";
+  DurchschnittValue = 50;
+  UeberschriftValue = "Letzter Wert";
+  UeberschriftDurchschnittsValue = "Durchschnitt";
   // @Output() click = new EventEmitter<DataEntityCard>();
   
   constructor(private   LineService : LineService) {
@@ -27,23 +30,25 @@ export class DataEntityCardComponent implements AfterViewInit {
 
   public FutureDivExpands(e){
     var tmp = e.currentTarget.parentElement.children;
-    tmp[0].style.width = "150px";
-    tmp[1].style.width = "45px";
-    tmp[2].style.width = "5px";
+    
+
+    tmp[0].style.width = "50px";
+    tmp[1].style.width = "50px";
+    tmp[2].style.width = "200px";
   }
 
   NormalDiv(e){
     var tmp = e.currentTarget.parentElement.children;
-    tmp[0].style.width = "50px";
+    tmp[0].style.width = "100px";
     tmp[1].style.width = "100px";
-    tmp[2].style.width = "50px";
+    tmp[2].style.width = "100px";
   }
 
   PastDivExpands(e){
     var tmp = e.currentTarget.parentElement.children;
-    tmp[0].style.width = "5px";
-    tmp[1].style.width = "45px";
-    tmp[2].style.width = "150px";
+    tmp[0].style.width = "200px";
+    tmp[1].style.width = "50px";
+    tmp[2].style.width = "50px";
   }
 
 
