@@ -12,15 +12,18 @@
 # Git Use
 1. if cloned 
 2. get new stable version in Terminal: git pull
-3. code code code
-4. in Vs.Code: Source Control 
-5. add Files with +  to  a commit
-6. give to commit a name (message)
-7. click:  Commit (nikeee)
-8. commit commit commit 
-9. Push the commits to remote respository: 
-10. in VS.Code Source Control: click: ... 
-11. click: Push
+3. create branch in vs code: click : button left [branch name]
+4. in VScode at top : + Create new Branch
+5. name branch
+6. code code code
+7. in Vs.Code: Source Control 
+8. add Files with +  to  a commit
+9. give to commit a name (message)
+10. click:  Commit (nikeee)
+11. commit commit commit 
+12. Push the commits to remote respository: 
+13. in VS.Code Source Control: click: ... 
+14. click: Push
 
 
 
