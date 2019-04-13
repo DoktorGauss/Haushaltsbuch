@@ -10,18 +10,13 @@ import { createCustomElement } from '@angular/elements';
   templateUrl: './data-entity-card-table.component.html',
   styleUrls: ['./data-entity-card-table.component.css']
 })
-export class DataEntityCardTableComponent implements AfterViewInit {
+export class DataEntityCardTableComponent{
   // public dataEntityCardComponentList: DataEntityCardComponent[];
   @Input() dataEntityCardList: DataEntityCard[];
 
   constructor(
-    private dataEntityCardService: DataEntityCardService,
-    private lineService: LineService,
-    private injector: Injector
-  ) { }
-
-  ngAfterViewInit() {
+    private dataEntityCardService: DataEntityCardService
+  ) {
     this.dataEntityCardList = this.dataEntityCardService.dataEntityCardList;
-  }
-
+   }
 }

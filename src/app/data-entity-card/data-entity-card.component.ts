@@ -4,6 +4,7 @@ import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, Template
 import { LineService } from '../providers/line.service';
 import { DataEntityService } from '../providers/data-entity.service';
 import { PortalHostDirective } from '@angular/cdk/portal';
+import { StatistikerService } from '../providers/statistiker.service';
 
 @Component({
   selector: 'app-data-entity-card',
@@ -15,22 +16,23 @@ export class DataEntityCardComponent implements AfterViewInit {
   @Input() dataEntityCard: DataEntityCard;
   @ViewChild('PastDiv') PastDiv: ElementRef;
   MyPastDivLines: HTMLDivElement[] = [];
-  Value = 50;
-  ProduktName = "Milch";
-  DurchschnittValue = 50;
-  UeberschriftValue = "PPS";
-  UeberschriftDurchschnittsValue = "Durchschnitt";
+  ProduktName: string = "Milch";
+  Value: number = 50;
+  DurchschnittValue: number = 50;
+  UeberschriftValue: string = "PreisPS";
+  UeberschriftDurchschnittsValue: string = "Durchschnitt";
   // @Output() click = new EventEmitter<DataEntityCard>();
 
-  constructor(private LineService: LineService, private dataEntityService: DataEntityService) {
+  constructor(private LineService: LineService, private dataEntityService: DataEntityService, private statistiker: StatistikerService) {
 
   }
 
   ngAfterViewInit() {
     if (this.dataEntityCard) {
-      this.Value = this.dataEntityCard.Value.PreisPS;
       this.ProduktName = this.dataEntityCard.Value.ProductName;
+      this.Value = this.dataEntityCard.Value.PreisPS;
       this.updatePastDiv();
+      this.DurchschnittValue = Number(this.statistiker.calcMean( this.dataEntityService.createArray(this.dataEntityCard.PastValues, this.UeberschriftValue) ).toPrecision(2));
     }
   }
 
@@ -60,14 +62,12 @@ export class DataEntityCardComponent implements AfterViewInit {
 
   createChart(): any {
     const dataEntityArray = this.dataEntityCard.PastValues;
-    const X = this.dataEntityService.createArray(dataEntityArray, "DataID");
+    const X = this.dataEntityService.createArray(dataEntityArray, "DataID").reverse();
     const Y = this.dataEntityService.createArray(dataEntityArray, "PreisPS");
-
     const PastDivLines: HTMLDivElement[] = this.LineService.createChart(this.PastDiv.nativeElement as HTMLDivElement, X, Y);
     this.MyPastDivLines = PastDivLines;
     for (let index = 0; index < PastDivLines.length; index++) {
       const element = PastDivLines[index];
-      // debugger;
       (this.PastDiv.nativeElement as HTMLDivElement).appendChild(element);
     }
   }
@@ -97,7 +97,6 @@ export class DataEntityCardComponent implements AfterViewInit {
     tmp[0].style.width = "200px";
     tmp[1].style.width = "50px";
     tmp[2].style.width = "50px";
-    debugger;
     this.updatePastDiv();
   }
 

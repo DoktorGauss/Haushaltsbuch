@@ -2,14 +2,37 @@
 
 
     //   { DataID: 100, PID: 1, ProductName: 'Milch1', Menge: 2, PreisPS: 0.68, Preis: 1.36 },
+    enum DataType{
+        Kosten = "Kosten",
+        Lohn = "Lohn",
+        RegelmeasigeKosten = "RegelmeasigeKosten",
+        RegelmeasigerLohn = "RegelmeasigerLohn",
+        GescheatzteKosten = "GescheatzteKosten",
+        GescheatzerLohn = "GescheatzerLohn"
+    }
 
 export class DataEntity {
-    DataID: number;
-    PID: number;
+    // details
+    DatumString: string;
     ProductName: string;
-    Menge: number;
-    PreisPS: number;
-    Preis: number;
+    // Primary Key
+    DataID: number; // if we make a Card from DataID, the Card is just the Entity
+    // or
+    Datum: Date; // Card from Dates, Tagesgeschäft
+
+    // ForeignKey
+    PID: number; // produkt  Card over product id
+    Type: DataType; // card over data type
+    HerkunftID: number; // card over laden id
+    
+
+    // Visible for end user  // Power
+    Menge: number; 
+    PreisPS: number; 
+    PreisEinkauf: number;
+
+
+    // Graph:   Card Over Key: K =>   Graph over Card(K) over Key F over Power P
 
      constructor(){
     }

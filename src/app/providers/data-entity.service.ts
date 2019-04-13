@@ -31,9 +31,13 @@ export class DataEntityService {
       tmp.DataID = element['DataID'];
       tmp.Menge = element['Menge'];
       tmp.PID = element['PID'];
-      tmp.Preis = element['Preis'];
+      tmp.PreisEinkauf = element['PreisEinkauf'];
       tmp.PreisPS = element['PreisPS'];
       tmp.ProductName = element['ProductName'];
+      tmp.Datum = new Date(element['DatumString']);
+      tmp.DatumString = element['DatumString'];
+      tmp.HerkunftID = element['HerkunftID'];
+      tmp.Type = element["Type"];
       dataEntityListClass.push(tmp); // JSON ==> Class    
     }
     return dataEntityListClass; // return
@@ -47,20 +51,17 @@ export class DataEntityService {
         case "DataID":
           returner.push(element.DataID);
           break;
-        case "Menge":
-          returner.push(element.Menge);
-          break;
         case "PID":
           returner.push(element.PID);
           break;
-        case "Preis":
-          returner.push(element.Preis);
+        case "ProductName":
+          returner.push(element.ProductName);
+          break;
+        case "Datum":
+          returner.push(element.Datum);
           break;
         case "PreisPS":
           returner.push(element.PreisPS);
-          break;
-        case "ProductName":
-          returner.push(element.ProductName);
           break;
         default:
           break;
