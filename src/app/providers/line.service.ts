@@ -70,7 +70,23 @@ export class LineService {
   }
   private createLineElement(x, y, length, angle): HTMLDivElement{
     var line = document.createElement("div");
-    var styles = 'border: 1pt solid blue; '
+    var styles = 'border: 0.5pt  solid black; '
+      + 'width: ' + length + 'px; '
+      + 'height: 0; '
+      + '-moz-transform: rotate(' + angle + 'rad); '
+      + '-webkit-transform: rotate(' + angle + 'rad); '
+      + '-o-transform: rotate(' + angle + 'rad); '
+      + '-ms-transform: rotate(' + angle + 'rad); '
+      + 'position: absolute; '
+      + 'top: ' + y + 'px; '
+      + 'left: ' + x + 'px; ';
+    line.setAttribute('style', styles);
+    return line;
+  }
+
+  private createLineElementByType(x, y, length, angle, type): HTMLDivElement{
+    var line = document.createElement("div");
+    var styles = 'border: 0.5pt ' + type + ' black; '
       + 'width: ' + length + 'px; '
       + 'height: 0; '
       + '-moz-transform: rotate(' + angle + 'rad); '
@@ -98,5 +114,22 @@ export class LineService {
     var alpha = Math.PI - Math.atan2(-b, a);
 
     return this.createLineElement(x, y, c, alpha);
+  }
+
+  public createLineByType(x1, y1, x2, y2, type) {
+    console.log( "(x1,y1) = (" + x1 + ',' + y1 + ') ; (x2,y2) = (' + x2 + ',' + y2 + ')');
+    var a = x1 - x2,
+      b = y1 - y2,
+      c = Math.sqrt(a * a + b * b);
+
+    var sx = (x1 + x2) / 2,
+      sy = (y1 + y2) / 2;
+
+    var x = sx - c / 2,
+      y = sy;
+
+    var alpha = Math.PI - Math.atan2(-b, a);
+
+    return this.createLineElementByType(x, y, c, alpha, type);
   }
 }
