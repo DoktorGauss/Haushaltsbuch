@@ -2,7 +2,7 @@
   <p id="Ueberschrift">{{ProduktName}}</p>
   <div id="CardDiv">
 
-    <div id="PastDiv" (click)="PastDivExpands($event)"></div>
+    <div #PastDiv id="PastDiv" class="PastDiv" (click)="PastDivExpands($event)"></div>
     <div id="WertDiv" (click)="NormalDiv($event)">
       <p id="UeberschriftValueP">{{UeberschriftValue}}</p>
       <p id="ValueP"> {{Value}}</p>
@@ -10,11 +10,5 @@
       <p id="DurchschnittsValueP"> {{DurchschnittValue}}</p>
     </div>
     <div id="FutureDiv" (click)="FutureDivExpands($event)"></div>
-
   </div>
 </div>
-
-<!-- <p id="UeberschriftValueP">{{UeberschriftValue}}</p>
-    <p id="ValueP"> {{Value}}</p>
-    <p id="UeberschriftDurchschnittsValueP">{{UeberschriftDurchschnittsValue}}</p>
-    <p id="DurchschnittsValueP"> {{DurchschnittValue}}</p> -->

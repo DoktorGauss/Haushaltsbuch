@@ -9,8 +9,18 @@
 7. Im Terminal: ng serve --open
 
 
-
-
+#Git Use
+1. if cloned 
+2. get new stable version in Terminal: git pull
+3. code code code
+4. in Vs.Code: Source Control 
+5. add Files with +  to  a commit
+6. give to commit a name (message)
+7. click:  Commit (nikeee)
+8. commit commit commit 
+9. Push the commits to remote respository: 
+10. in VS.Code Source Control: click: ... 
+11. click: Push
 
 
 

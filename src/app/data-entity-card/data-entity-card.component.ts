@@ -1,7 +1,9 @@
 import { DataEntity } from './../data-entity/data-entity.model';
 import { DataEntityCard } from './data-entity-card.model';
-import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, TemplateRef, ViewChild, ElementRef } from '@angular/core';
 import { LineService } from '../providers/line.service';
+import { DataEntityService } from '../providers/data-entity.service';
+import { PortalHostDirective } from '@angular/cdk/portal';
 
 @Component({
   selector: 'app-data-entity-card',
@@ -11,22 +13,44 @@ import { LineService } from '../providers/line.service';
 export class DataEntityCardComponent implements AfterViewInit {
 
   @Input() dataEntityCard:DataEntityCard;
+  @ViewChild('PastDiv') PastDiv: ElementRef; 
   Value = 50;
   ProduktName = "Milch";
   DurchschnittValue = 50;
-  UeberschriftValue = "Letzter Wert";
+  UeberschriftValue = "PPS";
   UeberschriftDurchschnittsValue = "Durchschnitt";
   // @Output() click = new EventEmitter<DataEntityCard>();
   
-  constructor(private   LineService : LineService) {
+  constructor(private   LineService : LineService , private dataEntityService: DataEntityService) {
     
   }
 
   ngAfterViewInit() 
   {
-    this.Value = this.dataEntityCard.Value.PreisPS;
-    this.ProduktName = this.dataEntityCard.Value.ProductName;
+    if(this.dataEntityCard){
+      this.Value = this.dataEntityCard.Value.PreisPS;
+      this.ProduktName = this.dataEntityCard.Value.ProductName;
+      // debugger;
+      const dataEntityArray = this.dataEntityCard.PastValues;
+      const X = this.dataEntityService.createArray(dataEntityArray, "DataID");
+      const Y = this.dataEntityService.createArray(dataEntityArray, "PreisPS");
+
+      const PastDivLines: HTMLDivElement[] =  this.LineService.createChart( this.PastDiv.nativeElement as HTMLDivElement, X, Y);
+      for (let index = 0; index < PastDivLines.length; index++) {
+        const element = PastDivLines[index];
+        // debugger;
+        (this.PastDiv.nativeElement as HTMLDivElement).appendChild(element);
+      }
+
+
+      // (this.PastDiv.nativeElement as HTMLDivElement).appendChild(this.LineService.createLine(0, 0, 0, 100));
+      // (this.PastDiv.nativeElement as HTMLDivElement).appendChild(this.LineService.createLine(0, 100, 100, 100));
+      // (this.PastDiv.nativeElement as HTMLDivElement).appendChild(this.LineService.createLine(100, 100, 100, 0));
+      // (this.PastDiv.nativeElement as HTMLDivElement).appendChild(this.LineService.createLine(100, 0, 0, 0));
+    }
   }
+
+
 
   public FutureDivExpands(e){
     var tmp = e.currentTarget.parentElement.children;
