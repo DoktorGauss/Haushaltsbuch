@@ -1,22 +1,33 @@
 #CardDiv{
+
     min-width: 15px;
-    max-width: 300px;
+    max-width: 310px;
     width: auto;
+
+
     min-height: 50px;
     max-height: 100px;
-    height: 59px;
+    height: 100px;
 }
 
 #WertDiv{
     float: left;
+
+
     border-width: 2px;
     border-color: black;
     border-style: solid;
+
+
+
     min-width: 5px;
     max-width: 100px;
     width: 100px;
+
+
+    
     height: 100%;
-    background-color: rgb(167, 165, 96);
+    background-color: rgba(59, 57, 32, 0.644);
 }
 
 
@@ -27,10 +38,10 @@
     border-color: black;
     border-style: solid;
     min-width: 1px;
-    max-width: 190px;
-    width: 50px;
+    max-width: 200px;
+    width: 100px;
     height: 100%;
-    background-color: rgb(182, 233, 193);
+    background-color: rgb(231, 182, 126);
 }
 
 
@@ -40,10 +51,10 @@
     border-color: black;
     border-style: solid;
     min-width: 1px;
-    max-width: 190px;
-    width: 50px;
+    max-width: 200px;
+    width: 100px;
     height: 100%;
-    background-color: rgb(221, 178, 154);
+    background-color: rgb(203, 238, 180);
 }
 
 
@@ -68,4 +79,18 @@
     border-width: 1pt;
     border-color: bisque;
     border-style: groove;
+}
+
+#Ueberschrift{
+    margin: 5px;
+}
+
+#UeberschriftValueP{
+    margin: 0px;
+    font-size: 10pt;
+}
+
+#UeberschriftDurchschnittsValueP{
+    margin: 0px;
+    font-size: 10pt;
 }
