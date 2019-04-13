@@ -14,7 +14,7 @@ export class DataEntityCardComponent implements AfterViewInit {
   Value = 50;
   ProduktName = "Milch";
   DurchschnittValue = 50;
-  UeberschriftValue = "Letzter Wert";
+  UeberschriftValue = "PPS";
   UeberschriftDurchschnittsValue = "Durchschnitt";
   // @Output() click = new EventEmitter<DataEntityCard>();
   
