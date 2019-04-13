@@ -47,5 +47,7 @@ export class DataEntityCardService {
     return tmpCardList; // return die CardListe
   }
 
+
+
   
 }

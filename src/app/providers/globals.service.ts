@@ -18,13 +18,13 @@ export class GlobalsService {
     
     this.DATA_ENTITY_LIST = [
       { DataID: 100, PID: 1, ProductName: 'Milch1', Menge: 2, PreisPS: 0.68, Preis: 1.36 },
-      { DataID: 102, PID: 1, ProductName: 'Milch1', Menge: 3, PreisPS: 0.68, Preis: 2.04 },
-      { DataID: 103, PID: 1, ProductName: 'Milch1', Menge: 5, PreisPS: 0.67, Preis: 3.35 },
+      { DataID: 102, PID: 1, ProductName: 'Milch1', Menge: 3, PreisPS: 0.66, Preis: 2.04 },
+      { DataID: 103, PID: 1, ProductName: 'Milch1', Menge: 5, PreisPS: 0.65, Preis: 3.35 },
       { DataID: 104, PID: 1, ProductName: 'Milch1', Menge: 3, PreisPS: 0.68, Preis: 2.04 },
-      { DataID: 105, PID: 1, ProductName: 'Milch1', Menge: 3, PreisPS: 0.68, Preis: 2.04 },
+      { DataID: 105, PID: 1, ProductName: 'Milch1', Menge: 3, PreisPS: 0.64, Preis: 2.04 },
       { DataID: 106, PID: 1, ProductName: 'Milch1', Menge: 3, PreisPS: 0.68, Preis: 2.04 },
-      { DataID: 107, PID: 1, ProductName: 'Milch1', Menge: 3, PreisPS: 0.68, Preis: 2.04 },
-      { DataID: 108, PID: 1, ProductName: 'Milch1', Menge: 3, PreisPS: 0.68, Preis: 2.04 },
+      { DataID: 107, PID: 1, ProductName: 'Milch1', Menge: 3, PreisPS: 0.69, Preis: 2.04 },
+      { DataID: 108, PID: 1, ProductName: 'Milch1', Menge: 3, PreisPS: 0.70, Preis: 2.04 },
       { DataID: 109, PID: 1, ProductName: 'Milch1', Menge: 3, PreisPS: 0.68, Preis: 2.04 },
       { DataID: 110, PID: 1, ProductName: 'Milch1', Menge: 3, PreisPS: 0.68, Preis: 2.04 },
       { DataID: 111, PID: 1, ProductName: 'Milch1', Menge: 3, PreisPS: 0.68, Preis: 2.04 },

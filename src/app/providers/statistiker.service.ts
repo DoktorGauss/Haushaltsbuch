@@ -21,6 +21,13 @@ export class StatistikerService {
     return ss.standardDeviation(x);
   }
 
+  public getMin(x: number[]){
+    return ss.min(x);
+  }
+
+  public getMax(x: number[]){
+    return ss.max(x);
+  }
 
   
 }
