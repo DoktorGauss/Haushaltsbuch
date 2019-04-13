@@ -9,7 +9,7 @@
 7. Im Terminal: ng serve --open
 
 
-#Git Use
+# Git Use
 1. if cloned 
 2. get new stable version in Terminal: git pull
 3. code code code
