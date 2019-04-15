@@ -8,6 +8,22 @@
     min-height: 50px;
     max-height: 100px;
     height: 100px;
+    position: relative;
+}
+
+#BasicDiv{
+    float: left;
+    min-width: 15px;
+    max-width: 400px;
+    min-height: 50px;
+    max-height: 170px;
+    width: auto;
+    height: auto;
+
+    margin: 5px;
+    border: 1pt;
+    border-style: dashed;
+    border-color: darkgoldenrod;
 }
 
 #WertDiv{
@@ -28,6 +44,7 @@
     
     height: 100%;
     background-color: rgba(59, 57, 32, 0.644);
+    position: relative;
 }
 
 
@@ -56,6 +73,7 @@
     width: 100px;
     height: 100%;
     background-color: rgb(203, 238, 180);
+    position: relative;
 }
 
 
@@ -95,3 +113,5 @@
     margin: 0px;
     font-size: 10pt;
 }
+
+

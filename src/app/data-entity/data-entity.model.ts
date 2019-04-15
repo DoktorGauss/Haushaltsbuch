@@ -11,6 +11,14 @@
         GescheatzerLohn = "GescheatzerLohn"
     }
 
+    // über diese Typen können Karten erstellt werden ==> Die Daten Liste neu sortiert
+    enum DataBaseEntities{
+        Datum = "Datum",
+        PID = "ProductID",
+        Type = "Type",
+        HerkunftID = "HerkunftID"
+    }
+
 export class DataEntity {
     // details
     DatumString: string;
