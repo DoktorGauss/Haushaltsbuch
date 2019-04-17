@@ -24,7 +24,7 @@ export class DataEntityService {
     // { DataID: 100, PID: 1, ProductName: 'Milch1', Menge: 2, PreisPS: 0.68, Preis: 1.36 },
     var tmpDataEntityListJson = this.globalsService.getDataEntityList(); // Speichere Json 
     this.dataEntityListJSON = tmpDataEntityListJson;
-    let dataEntityListClass = []; // create returner 
+    let dataEntityListClass: DataEntity[] = []; // create returner 
     for (let index = 0; index < tmpDataEntityListJson.length; index++) {  // gehe durch jedes Json
       const element = tmpDataEntityListJson[index]; // aktuelle Json
       var tmp: DataEntity = new DataEntity();
@@ -38,6 +38,11 @@ export class DataEntityService {
       tmp.DatumString = element['DatumString'];
       tmp.HerkunftID = element['HerkunftID'];
       tmp.Type = element["Type"];
+      if(index>= 1){
+        tmp.DeltaPreis = tmp.PreisPS - dataEntityListClass[index-1].PreisPS;
+      } else {
+        tmp.DeltaPreis = 0;
+      }
       dataEntityListClass.push(tmp); // JSON ==> Class    
     }
     return dataEntityListClass; // return
@@ -62,6 +67,9 @@ export class DataEntityService {
           break;
         case "PreisPS":
           returner.push(element.PreisPS);
+          break;
+          case "DeltaPreis":
+          returner.push(element.DeltaPreis);
           break;
         default:
           break;

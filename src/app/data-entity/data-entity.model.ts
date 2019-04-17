@@ -38,7 +38,7 @@ export class DataEntity {
     Menge: number; 
     PreisPS: number; 
     PreisEinkauf: number;
-
+    DeltaPreis: number;
 
     // Graph:   Card Over Key: K =>   Graph over Card(K) over Key F over Power P
 
