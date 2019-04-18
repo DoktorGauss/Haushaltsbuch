@@ -4,12 +4,13 @@ import * as ss from 'simple-statistics'
 import regression from 'regression';
 import * as math from 'mathjs';
 import * as cholesky from 'ndarray-cholesky-factorization'
+import { MathService } from './math.service';
 @Injectable({
   providedIn: 'root'
 })
 export class StatistikerService {
 
-  constructor() { }
+  constructor( private mathematiker: MathService) { }
 
   public calcMean(x: number[]): number {
     const returner: number = ss.mean(x);
@@ -45,19 +46,9 @@ export class StatistikerService {
   }
 // meanFunction: (z: number[]) => number, covarianceFunction: (x: number[], y: number[]) => number,
 
-  public GaussProzess( X: number[] , F: number[], meanfunction: (x:number[]) => number = null, covarianceFuntion: (x:number [], y:number[]) =>number = null): void {
-    if(X.length == F.length){
-      const n = X.length; 
-      const mean = this.calcMean(F);
-      debugger;
-      var K: number[][] = this.createK2D(X, F);
-      var L: number[][] = [];
-      L = cholesky(K,L);
-      const m = 1000;
-      const randWalks =  this.randomWalk(m, { erwartungswert: mean , stdAbweichung: K});
-      
+  public GaussProzess( meanfunction: (x:number[]) => number = null, covarianceFuntion: (x:number, y:number) =>number = null): void {
+   
 
-    }  
   }
 
 
@@ -144,12 +135,11 @@ export class StatistikerService {
   }
 
 
-  private randomWalk(n: number, parameter: randomWalkParameter) {
-    const mu: number = parameter.erwartungswert ? parameter.erwartungswert : 0;
-    const sigma: number[][] = parameter.stdAbweichung ? parameter.stdAbweichung : null;
+  public randomWalk(n: number, mu: number , sigma: number) {
+
     var returner: number[] = [];
     for (let i = 0; i < n; i++) {
-      const val = mu + sigma * Math.random();
+      const val = mu + sigma* Math.random();
       returner.push(val);
     }
     return returner;
@@ -166,8 +156,8 @@ export class StatistikerService {
 
 interface randomWalkParameter {
 
-  erwartungswert: number;
-  stdAbweichung: number[][];
+  mu: number;
+  K: number[][];
 }
 
 interface gaussProzessParameter{

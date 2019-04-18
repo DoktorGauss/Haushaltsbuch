@@ -1,7 +1,6 @@
 import { GlobalsService } from './globals.service';
 import { Injectable } from '@angular/core';
 import { DataEntity } from '../data-entity/data-entity.model';
-import { Serialization } from '../serialization.helper';
 
 @Injectable({
   providedIn: 'root'

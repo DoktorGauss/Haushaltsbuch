@@ -6,13 +6,21 @@ import { debug } from 'util';
   providedIn: 'root'
 })
 export class LineService {
-
+  
   constructor(private statistiker: StatistikerService){ }
   
+  createIterationList(length: number): number[] {
+    var returner: number[] = [];
+    for (let i = 0; i <length; i++) {
+      returner.push(i);
+    }
+    return returner;
+  }
+
   public createChart(div: HTMLDivElement, X: number[], Y: number[]): HTMLDivElement[]{
     var x: number[] = this.transformToDivCoordinates(div,X, "x");
     var y: number[] = this.transformToDivCoordinates(div,Y,"y");
-
+    
     return this.createLineSegments(x,y);
   }
   private transformToDivCoordinates(div: HTMLDivElement, X: number[], arg2: string): number[] {
@@ -117,6 +125,23 @@ export class LineService {
   }
 
   public createLineByType(x1, y1, x2, y2, type) {
+    console.log( "(x1,y1) = (" + x1 + ',' + y1 + ') ; (x2,y2) = (' + x2 + ',' + y2 + ')');
+    var a = x1 - x2,
+      b = y1 - y2,
+      c = Math.sqrt(a * a + b * b);
+
+    var sx = (x1 + x2) / 2,
+      sy = (y1 + y2) / 2;
+
+    var x = sx - c / 2,
+      y = sy;
+
+    var alpha = Math.PI - Math.atan2(-b, a);
+
+    return this.createLineElementByType(x, y, c, alpha, type);
+  }
+
+  public createLineByTypeColor(x1, y1, x2, y2, type, color) {
     console.log( "(x1,y1) = (" + x1 + ',' + y1 + ') ; (x2,y2) = (' + x2 + ',' + y2 + ')');
     var a = x1 - x2,
       b = y1 - y2,

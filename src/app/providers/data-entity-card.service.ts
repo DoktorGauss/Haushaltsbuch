@@ -3,7 +3,6 @@ import { DataEntity } from './../data-entity/data-entity.model';
 import { Injectable } from '@angular/core';
 import { DataEntityService } from './data-entity.service';
 import { DataEntityCard } from '../data-entity-card/data-entity-card.model';
-import { Serialization } from '../serialization.helper';
 
 @Injectable({
   providedIn: 'root'

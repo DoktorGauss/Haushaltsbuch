@@ -16,7 +16,11 @@ export class DataEntityCardComponent implements AfterViewInit {
 
   @Input() dataEntityCard: DataEntityCard;
   @ViewChild('PastDiv') PastDiv: ElementRef;
+  @ViewChild('PostDiv') PostDiv: ElementRef;
+
   PastDivLines: HTMLDivElement[] = [];
+  PostDivLines: HTMLDivElement[] = [];
+
   ProduktName: string = "Milch";
   Value: number = 50;
   DurchschnittValue: number = 50;
@@ -27,9 +31,7 @@ export class DataEntityCardComponent implements AfterViewInit {
   PostValue: number = 50;
   // @Output() click = new EventEmitter<DataEntityCard>();
 
-  constructor(private LineService: LineService, private dataEntityService: DataEntityService, private statistikerService: StatistikerService) {
-
-  }
+  constructor(private LineService: LineService, private dataEntityService: DataEntityService, private statistikerService: StatistikerService) {}
 
   ngAfterViewInit() {
     if (this.dataEntityCard) {
@@ -44,8 +46,32 @@ export class DataEntityCardComponent implements AfterViewInit {
 
   private updatePastDiv() {
     this.clearPastDivFromLines();
-    this.createChart();
-    this.InsertMittelwertLinie();
+    this.createPastDivChart();
+    this.InsertMittelwertLinieInPastDiv();
+  }
+
+  private updatePostDiv() {
+    this.clearPostDivFromLines();
+    this.createPostDivChart();
+    this.InsertMittelwertLinieinPostDiv();
+  }
+
+  private updateNormalDiv(): any {
+    throw new Error("Method not implemented.");
+  }
+
+
+
+  createPastDivChart(): any {
+    const dataEntityArray = this.dataEntityCard.PastValues;
+    const X = this.dataEntityService.createArray(dataEntityArray, "DataID").reverse();
+    const Y = this.dataEntityService.createArray(dataEntityArray, "PreisPS");
+
+    this.PastDivLines = this.createChart(X,Y, this.PastDiv);
+    for (let index = 0; index < this.PastDivLines.length; index++) {
+      const element = this.PastDivLines[index];
+      (this.PastDiv.nativeElement as HTMLDivElement).appendChild(element);
+    }
   }
 
   clearPastDivFromLines(): any {
@@ -56,7 +82,7 @@ export class DataEntityCardComponent implements AfterViewInit {
     this.PastDivLines = [];
   }
 
-  InsertMittelwertLinie(): any {
+  InsertMittelwertLinieInPastDiv(): any {
 
     const div = (this.PastDiv.nativeElement as HTMLDivElement);
     const height = div.clientHeight;
@@ -66,59 +92,43 @@ export class DataEntityCardComponent implements AfterViewInit {
     (this.PastDiv.nativeElement as HTMLDivElement).appendChild(line);
   }
 
-  createChart(): any {
-    const dataEntityArray = this.dataEntityCard.PastValues;
-    const X = this.dataEntityService.createArray(dataEntityArray, "DataID").reverse();
-    const Y = this.dataEntityService.createArray(dataEntityArray, "PreisPS");
-    const PastDivLines: HTMLDivElement[] = this.LineService.createChart(this.PastDiv.nativeElement as HTMLDivElement, X, Y);
-    this.PastDivLines = PastDivLines;
-    for (let index = 0; index < PastDivLines.length; index++) {
-      const element = PastDivLines[index];
-      (this.PastDiv.nativeElement as HTMLDivElement).appendChild(element);
+  clearPostDivFromLines(): any {
+    for (let index = 0; index < this.PostDivLines.length; index++) {
+      const element = this.PostDivLines[index];
+      (this.PostDiv.nativeElement as HTMLDivElement).removeChild(element);
+    }
+    this.PostDivLines = [];
+  }
+
+  InsertMittelwertLinieinPostDiv(): any {
+    const div = (this.PostDiv.nativeElement as HTMLDivElement);
+    const height = div.clientHeight;
+    const width = div.clientWidth;
+    const line = this.LineService.createLineByType(0, height/2, width, height/2, 'dotted');
+    this.PostDivLines.push(line);
+    (this.PostDiv.nativeElement as HTMLDivElement).appendChild(line);
+  }
+
+
+  createPostDivChart(): any {
+    const F: number[] = this.dataEntityService.createArray( this.dataEntityCard.PastValues , "PreisPS");
+    const mu: number = this.statistikerService.calcMean(F);
+    const sigma: number = this.statistikerService.calcStdDev(F);
+    const randomWalks: number[] = this.statistikerService.randomWalk(F.length, mu, sigma);
+
+    const Y: number[] = randomWalks;
+    const X: number[] = this.LineService.createIterationList(randomWalks.length).reverse();
+
+    this.PostDivLines =  this.createChart(X,Y, this.PostDiv);
+    for (let index = 0; index < this.PostDivLines.length; index++){
+      const element = this.PostDivLines[index];
+      (this.PostDiv.nativeElement as HTMLDivElement).appendChild(element);
     }
   }
 
-
-
-
-
-  public FutureDivExpands(e) {
-    var tmp = e.currentTarget.parentElement.children;
-    tmp[0].style.width = "50px";
-    tmp[1].style.width = "50px";
-    tmp[2].style.width = "200px";
-    this.updatePastDiv();
-    this.updateNormalDiv();
-    this.updatePostDiv();
+  createChart(X: number[], Y: number[], div: ElementRef): any {
+    return this.LineService.createChart(div.nativeElement as HTMLDivElement, X, Y);
   }
-
-
-  private updatePostDiv(): any {
-    const F: number[] = this.dataEntityService.createArray( this.dataEntityCard.PastValues , "DeltaPreis");
-    const X = this.dataEntityService.createArray( this.dataEntityCard.PastValues , "DataID");
-    debugger;
-    const GaussProzess = this.statistikerService.GaussProzess(X,F, null,null);
-    // const predictValue = regression.predict( this.statistikerService.getMax(X) + 1);
-    // var dataEntity = new DataEntity();
-    // dataEntity.DataID = this.dataEntityCard.Value.DataID ++;
-    // dataEntity.Datum = new Date();
-    // dataEntity.DatumString =  new Date().toString();
-    // dataEntity.HerkunftID =  this.dataEntityCard.Value.HerkunftID;
-    // dataEntity.Menge =  1;
-    // dataEntity.PID =  this.dataEntityCard.Value.PID;
-    // dataEntity.PreisEinkauf = predictValue[1];
-    // dataEntity.PreisPS =  predictValue[1];
-    // dataEntity.ProductName =  this.dataEntityCard.Value.ProductName;
-    // dataEntity.Type =  this.dataEntityCard.Value.Type;
-
-    // this.dataEntityCard.PostValue = dataEntity;
-
-
-  }
-  private updateNormalDiv(): any {
-    throw new Error("Method not implemented.");
-  }
-
 
 
   NormalDiv(e) {
@@ -127,7 +137,7 @@ export class DataEntityCardComponent implements AfterViewInit {
     tmp[1].style.width = "100px";
     tmp[2].style.width = "100px";
     this.updatePastDiv();
-    this.updateNormalDiv();
+    // this.updateNormalDiv();
     this.updatePostDiv();
   }
 
@@ -137,11 +147,19 @@ export class DataEntityCardComponent implements AfterViewInit {
     tmp[1].style.width = "50px";
     tmp[2].style.width = "50px";
     this.updatePastDiv();
-    this.updateNormalDiv();
+    // this.updateNormalDiv();
     this.updatePostDiv();
   }
 
-
+  public FutureDivExpands(e) {
+    var tmp = e.currentTarget.parentElement.children;
+    tmp[0].style.width = "50px";
+    tmp[1].style.width = "50px";
+    tmp[2].style.width = "200px";
+    this.updatePastDiv();
+    // this.updateNormalDiv();
+    this.updatePostDiv();
+  }
 
 }
 
