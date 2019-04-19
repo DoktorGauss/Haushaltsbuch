@@ -1,8 +1,8 @@
 import { DataEntityCardComponent } from './../data-entity-card/data-entity-card.component';
-import { DataEntity } from './../data-entity/data-entity.model';
 import { Injectable } from '@angular/core';
 import { DataEntityService } from './data-entity.service';
-import { DataEntityCard } from '../data-entity-card/data-entity-card.model';
+import { DataEntityCard } from '../models/data-entity-card.model';
+import { DataEntity } from '../models/data-entity.model';
 
 @Injectable({
   providedIn: 'root'

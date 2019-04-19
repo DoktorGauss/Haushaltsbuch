@@ -2,7 +2,7 @@ import { LineService } from './../providers/line.service';
 import { Component, OnInit, ViewChild, Injector, Input, TemplateRef, ContentChild, AfterViewInit } from '@angular/core';
 import { DataEntityCardComponent } from '../data-entity-card/data-entity-card.component';
 import { DataEntityCardService } from '../providers/data-entity-card.service';
-import { DataEntityCard } from '../data-entity-card/data-entity-card.model';
+import { DataEntityCard } from '../models/data-entity-card.model';
 import { createCustomElement } from '@angular/elements';
 
 @Component({
@@ -19,7 +19,6 @@ export class DataEntityCardTableComponent {
 
   constructor(private dataEntityCardService: DataEntityCardService) {
     this.dataEntityCardList = [];
-    debugger;
     this.dataEntityCardList.push( this.dataEntityCardService.createDataEntityCardList("ProductID"));
     this.dataEntityCardList.push( this.dataEntityCardService.createDataEntityCardList("Type"));
     this.dataEntityCardList.push( this.dataEntityCardService.createDataEntityCardList("HerkunftID"));

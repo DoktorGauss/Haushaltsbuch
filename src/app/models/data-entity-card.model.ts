@@ -1,5 +1,5 @@
-import { DataEntity } from '../data-entity/data-entity.model';
 import { Type } from '@angular/core';
+import { DataEntity } from './data-entity.model';
 
 
 
