@@ -10,18 +10,18 @@ import { createCustomElement } from '@angular/elements';
   templateUrl: './data-entity-card-table.component.html',
   styleUrls: ['./data-entity-card-table.component.css']
 })
-export class DataEntityCardTableComponent implements AfterViewInit {
+export class DataEntityCardTableComponent {
   // public dataEntityCardComponentList: DataEntityCardComponent[];
-  @Input() dataEntityCardList: DataEntityCard[];
+  @Input() dataEntityCardList: DataEntityCard[][];
 
-  constructor(
-    private dataEntityCardService: DataEntityCardService,
-    private lineService: LineService,
-    private injector: Injector
-  ) { }
+  public ForeignKeyList: string[] = ["ProductID", "Type", "HerkunftID"];
 
-  ngAfterViewInit() {
-    this.dataEntityCardList = this.dataEntityCardService.dataEntityCardList;
+
+  constructor(private dataEntityCardService: DataEntityCardService) {
+    this.dataEntityCardList = [];
+    debugger;
+    this.dataEntityCardList.push( this.dataEntityCardService.createDataEntityCardList("ProductID"));
+    this.dataEntityCardList.push( this.dataEntityCardService.createDataEntityCardList("Type"));
+    this.dataEntityCardList.push( this.dataEntityCardService.createDataEntityCardList("HerkunftID"));
   }
-
 }

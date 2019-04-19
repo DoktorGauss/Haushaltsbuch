@@ -4,7 +4,9 @@
 
 
 
-<h3>List over Produkt ID</h3>
-<div *ngFor="let item of dataEntityCardList">
-    <app-data-entity-card [(dataEntityCard)]="item"></app-data-entity-card>
+<div style="width: 100%; height: 300px;" *ngFor="let List of dataEntityCardList; let i = index">
+    <h3>List over {{ForeignKeyList[i]}}</h3>
+    <div *ngFor="let item of List">
+        <app-data-entity-card [(dataEntityCard)]="item"></app-data-entity-card>
+    </div>
 </div>
