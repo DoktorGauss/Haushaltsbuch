@@ -58,6 +58,7 @@ export class LineService {
     }
     return X;
   }
+
   
   private createLineSegments(x : number[], y : number[]) : HTMLDivElement[]{
     var Returner: HTMLDivElement[] = [];

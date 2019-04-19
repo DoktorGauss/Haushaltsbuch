@@ -1,11 +1,9 @@
 import { StatistikerService } from './../providers/statistiker.service';
-import { DataEntity } from './../data-entity/data-entity.model';
 import { DataEntityCard } from './data-entity-card.model';
-import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, TemplateRef, ViewChild, ElementRef } from '@angular/core';
+import { Component,  Input,   AfterViewInit,  ViewChild, ElementRef } from '@angular/core';
 import { LineService } from '../providers/line.service';
 import { DataEntityService } from '../providers/data-entity.service';
-import { PortalHostDirective } from '@angular/cdk/portal';
-import { Data } from '@syncfusion/ej2-grids';
+
 
 @Component({
   selector: 'app-data-entity-card',
@@ -26,9 +24,7 @@ export class DataEntityCardComponent implements AfterViewInit {
   DurchschnittValue: number = 50;
   UeberschriftValue: string = "PreisPS";
   UeberschriftDurchschnittsValue: string = "Durchschnitt";
-
-
-  PostValue: number = 50;
+  PostValue: string = "0";
   // @Output() click = new EventEmitter<DataEntityCard>();
 
   constructor(private LineService: LineService, private dataEntityService: DataEntityService, private statistikerService: StatistikerService) {}
@@ -40,7 +36,7 @@ export class DataEntityCardComponent implements AfterViewInit {
       this.DurchschnittValue = Number(this.statistikerService.calcMean( this.dataEntityService.createArray(this.dataEntityCard.PastValues, this.UeberschriftValue) ).toPrecision(2));
       this.updatePastDiv();
       this.updatePostDiv();
-      this.PostValue = this.dataEntityCard.PostValue.PreisPS;
+      // this.PostValue = this.dataEntityCard.PostValue.PreisPS;
     }
   }
 
@@ -114,6 +110,7 @@ export class DataEntityCardComponent implements AfterViewInit {
     const F: number[] = this.dataEntityService.createArray( this.dataEntityCard.PastValues , "PreisPS");
     const mu: number = this.statistikerService.calcMean(F);
     const sigma: number = this.statistikerService.calcStdDev(F);
+    
     const randomWalks: number[] = this.statistikerService.randomWalk(F.length, mu, sigma);
 
     const Y: number[] = randomWalks;

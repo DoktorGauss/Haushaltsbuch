@@ -15,27 +15,26 @@ export class DataEntityCardService {
 
   constructor(private dataEntityService: DataEntityService) { 
     this.dataEntityList = this.dataEntityService.getDataEntityList();
-    this.dataEntityCardList = this.createDataEntityCardList();
   }
 
 
 
-  private createDataEntityCardList(): DataEntityCard[] {
-    var tmpList:DataEntity[] = this.dataEntityList; // Speichere Liste in kopie
+  public createDataEntityCardList(foreignKey: string): DataEntityCard[] {
+    var tmpList:DataEntity[] = this.dataEntityService.getDataEntityList(); // Speichere Liste in kopie
     var tmpCardList = []; // return Liste
     while (tmpList.length > 0) { // Solange die KopieListe existiert
       var tmpElement:DataEntity = tmpList[0]; // nehme das erste Element aus KopieListe
       var tmpEntityList = []; // erstelle eine zweite noch leere Liste. 
       for (let index = 0; index < tmpList.length; index++) {  // geh durch jedes Item in der ersten Liste (KopieListe)
         const element: DataEntity = tmpList[index]; // nehme das aktuelle element
-        if(element.PID == tmpElement.PID){ // gleiche PRODUKT ID wie erstes Element? 
+        if(element.getValueOFForeignKey(foreignKey) == tmpElement.getValueOFForeignKey(foreignKey)){ // gleicher foreign Key wie element  
           tmpEntityList.push(element); // speichere in zweiter Liste
           tmpList.splice(index, 1); // lösche das item aus der ersten Liste (KopieListe)
           index--; // Zähler zurücksetzen ==> weil kürzer geworden ^^ 
         }
       }
-      //Wir haben noch einen (den zweiten) Array befüllt, in dem jedes Element die gleiche ProduktID hat.
-      tmpEntityList.sort( (e1,e2) => e1.dataId - e2.dataId); // sortiere zweiten array nach der ID (setzt Chronologie fest)
+      //Wir haben noch einen (den zweiten) Array befüllt, in dem jedes Element den gleichen Foreign Key hat.
+      tmpEntityList.sort( (e1,e2) => e1.dataId - e2.dataId); // sortiere zweiten array nach der ID (setzt Chronologie fest) Primary Key
       var tmp = new DataEntityCard(DataEntityCardComponent); // erstelle neue Card
       tmp.Value = tmpEntityList[tmpEntityList.length-1]; // aktuelle Value ist der letzte in der Liste
       tmp.PastValues = tmpEntityList; // Die vergangenen Values sind alle in der Liste

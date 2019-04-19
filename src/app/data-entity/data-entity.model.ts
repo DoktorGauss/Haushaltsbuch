@@ -12,37 +12,67 @@
     }
 
     // über diese Typen können Karten erstellt werden ==> Die Daten Liste neu sortiert
-    enum DataBaseEntities{
+    enum ForeignKey{
         Datum = "Datum",
         PID = "ProductID",
         Type = "Type",
         HerkunftID = "HerkunftID"
     }
 
+    enum PrimaryKey{
+        DataID = "DataID"
+    }
+
 export class DataEntity {
     // details
     DatumString: string;
     ProductName: string;
+
+
     // Primary Key
     DataID: number; // if we make a Card from DataID, the Card is just the Entity
-    // or
-    Datum: Date; // Card from Dates, Tagesgeschäft
 
+    
     // ForeignKey
     PID: number; // produkt  Card over product id
     Type: DataType; // card over data type
     HerkunftID: number; // card over laden id
+    Datum: Date; // Card from Dates, Tagesgeschäft
     
 
-    // Visible for end user  // Power
+    // Visible for end user  // DIe Werte die wie schätzen können
     Menge: number; 
     PreisPS: number; 
     PreisEinkauf: number;
     DeltaPreis: number;
 
+
+
     // Graph:   Card Over Key: K =>   Graph over Card(K) over Key F over Power P
 
      constructor(){
+    }
+
+    getValueOFForeignKey(key: string){
+        switch (key) {
+            case "Datum":
+                return this.Datum;
+            break;
+            case "ProductID":
+                return this.PID;
+            break;
+            case "Type":
+                return this.Type;
+            break;
+
+            case "HerkunftID":
+                return this.HerkunftID;
+            break;
+
+            default:
+                return this.DataID;
+                break;
+        }
     }
 }
 

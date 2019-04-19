@@ -16,7 +16,7 @@ export class DataEntityService {
   }
 
   public getDataEntityList(): DataEntity[] {
-    return this.dataEntityList;
+    return this.dataEntityList.length === 0 ? this.createDataEntityList() : this.dataEntityList;
   }
 
   private createDataEntityList(): DataEntity[] {

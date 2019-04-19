@@ -10,6 +10,8 @@ export class DataEntityCard {
     PastValues: DataEntity[];
     PostValue: DataEntity;
 
+    ForeignKey: string;
+    PrimaryKey: string;
 
 
     constructor(public component: Type<any>){
