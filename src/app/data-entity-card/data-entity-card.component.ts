@@ -25,14 +25,18 @@ export class DataEntityCardComponent implements AfterViewInit {
   UeberschriftValue: string = "PreisPS";
   UeberschriftDurchschnittsValue: string = "Durchschnitt";
   PostValue: string = "0";
+
+  CardTitle: string = "Milch";
   // @Output() click = new EventEmitter<DataEntityCard>();
 
-  constructor(private LineService: LineService, private dataEntityService: DataEntityService, private statistikerService: StatistikerService) {}
+  constructor(private LineService: LineService, private dataEntityService: DataEntityService, private statistikerService: StatistikerService) {
+  }
 
   ngAfterViewInit() {
     if (this.dataEntityCard) {
       this.ProduktName = this.dataEntityCard.Value.ProductName;
       this.Value = this.dataEntityCard.Value.PreisPS;
+      this.CardTitle = this.dataEntityCard.getCardTitle();
       this.DurchschnittValue = Number(this.statistikerService.calcMean( this.dataEntityService.createArray(this.dataEntityCard.PastValues, this.UeberschriftValue) ).toPrecision(2));
       this.updatePastDiv();
       this.updatePostDiv();

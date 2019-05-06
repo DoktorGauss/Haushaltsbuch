@@ -35,7 +35,7 @@ export class DataEntityCardService {
       }
       //Wir haben noch einen (den zweiten) Array befüllt, in dem jedes Element den gleichen Foreign Key hat.
       tmpEntityList.sort( (e1,e2) => e1.dataId - e2.dataId); // sortiere zweiten array nach der ID (setzt Chronologie fest) Primary Key
-      var tmp = new DataEntityCard(DataEntityCardComponent); // erstelle neue Card
+      var tmp = new DataEntityCard(DataEntityCardComponent,foreignKey, "DataID" ); // erstelle neue Card
       tmp.Value = tmpEntityList[tmpEntityList.length-1]; // aktuelle Value ist der letzte in der Liste
       tmp.PastValues = tmpEntityList; // Die vergangenen Values sind alle in der Liste
       tmp.PostValue = new DataEntity(); // der geschätze Value kommt noch   

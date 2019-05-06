@@ -1,117 +1,60 @@
-#CardDiv{
-
-    min-width: 15px;
-    max-width: 310px;
-    width: auto;
-
-
-    min-height: 50px;
-    max-height: 100px;
-    height: 100px;
-    position: relative;
-}
-
 #BasicDiv{
-    float: left;
-    min-width: 15px;
-    max-width: 400px;
-    min-height: 50px;
-    max-height: 170px;
-    width: auto;
-    height: auto;
+    /* Position relativ weil es childs besitzt */
+    position: relative; 
+    width: 400px;
+    height: 200px;
 
-    margin: 5px;
-    border: 1pt;
-    border-style: dashed;
-    border-color: darkgoldenrod;
+    margin: 10px;
+    padding: 10px;
 }
 
-#WertDiv{
-    float: left;
-
-
-    border-width: 2px;
-    border-color: black;
-    border-style: solid;
-
-
-
-    min-width: 5px;
-    max-width: 100px;
-    width: 100px;
-
-
+#TopicDiv{
+    top: 0;
+    left: 0;
     
-    height: 100%;
-    background-color: rgba(59, 57, 32, 0.644);
+    width: 100%;
+    height: 10%;
+    background-color: aqua;
+}
+
+#CardDiv{
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+    height: 90%;
+    background-color: burlywood;
+    /* Position relative weil es childs besitzt */
     position: relative;
 }
-
-
 
 #PastDiv{
-    float: left;
-    border-width: 1px;
-    border-color: black;
-    border-style: solid;
-    min-width: 1px;
-    max-width: 200px;
-    width: 100px;
     height: 100%;
-    background-color: rgb(231, 182, 126);
+    width: 33.33%;
+
+    float: left;
+
+    background-color: darkgrey;
+
     position: relative;
 }
 
+#CurrentDiv{
+    height: 100%;
+    width: 33.33%;
+
+    float: left;
+
+    background-color: thistle;
+}
 
 #PostDiv{
+    height:100%;
+    width: 33.33%;
+
     float: left;
-    border-width: 1px;
-    border-color: black;
-    border-style: solid;
-    min-width: 1px;
-    max-width: 200px;
-    width: 100px;
-    height: 100%;
-    background-color: rgb(203, 238, 180);
+    
+    background-color: darkgreen;
+
     position: relative;
 }
-
-
-/* <p style="text-align: center; height: 50px; margin: 5px"> {{Value}}</p>
-    <p style="text-align: center; color: orange; height: 20px; margin: 5 px"> {{DurchschnittValue}}</p> */
-
-#ValueP{
-    text-align: center;
-    height: 20px;
-    margin: 5px;
-    color: rgb(233, 225, 225);
-    border-width: 1pt;
-    border-color: bisque;
-    border-style: groove;
-}
-
-#DurchschnittsValueP{
-    text-align: center;
-    color: rgb(207, 191, 191);
-    height: 20px;
-    margin: 5px;
-    border-width: 1pt;
-    border-color: bisque;
-    border-style: groove;
-}
-
-#Ueberschrift{
-    margin: 5px;
-}
-
-#UeberschriftValueP{
-    margin: 0px;
-    font-size: 10pt;
-}
-
-#UeberschriftDurchschnittsValueP{
-    margin: 0px;
-    font-size: 10pt;
-}
-
-

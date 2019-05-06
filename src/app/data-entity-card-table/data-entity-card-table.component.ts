@@ -19,8 +19,8 @@ export class DataEntityCardTableComponent {
 
   constructor(private dataEntityCardService: DataEntityCardService) {
     this.dataEntityCardList = [];
-    this.dataEntityCardList.push( this.dataEntityCardService.createDataEntityCardList("ProductID"));
-    this.dataEntityCardList.push( this.dataEntityCardService.createDataEntityCardList("Type"));
-    this.dataEntityCardList.push( this.dataEntityCardService.createDataEntityCardList("HerkunftID"));
+    this.ForeignKeyList.forEach(element => {
+      this.dataEntityCardList.push( this.dataEntityCardService.createDataEntityCardList(element));
+    });
   }
 }
