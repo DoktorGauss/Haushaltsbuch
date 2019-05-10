@@ -1,9 +1,6 @@
-import { LineService } from '../../providers/line.service';
-import { Component, OnInit, ViewChild, Injector, Input, TemplateRef, ContentChild, AfterViewInit } from '@angular/core';
-import { DataEntityCardComponent } from '../data-entity-card/data-entity-card.component';
-import { DataEntityCardService } from '../../providers/data-entity-card.service';
-import { DataEntityCard } from '../../models/data-entity-card.model';
-import { createCustomElement } from '@angular/elements';
+import { DataEntityCard } from './../../models/data-entity-card.model';
+import { DataEntityCardService } from './../../providers/data-entity-card.service';
+import { Component, Input} from '@angular/core';
 
 @Component({
   selector: 'app-data-entity-card-table',

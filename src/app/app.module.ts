@@ -8,6 +8,8 @@ import { DataEntityCardComponent } from './components/data-entity-card/data-enti
 import { DataEntityCardTableComponent } from './components/data-entity-card-table/data-entity-card-table.component';
 import { AppRoutingModule } from './app-routing.module';
 import { GridModule, GroupService, FilterService, SortService, PageService } from '@syncfusion/ej2-angular-grids';
+import { CameraOCRComponent } from './components/camera-ocr/camera-ocr.component';
+import { CardPipePipe } from './card-pipe.pipe';
 
 
 // <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">    in html wenn nice button
@@ -18,7 +20,9 @@ import { GridModule, GroupService, FilterService, SortService, PageService } fro
     AppComponent,
     DataEntityTableComponent,
     DataEntityCardTableComponent,
-    DataEntityCardComponent
+    DataEntityCardComponent,
+    CameraOCRComponent,
+    CardPipePipe
   ],
   imports: [
     BrowserModule,
