@@ -1,4 +1,4 @@
-import { DataEntityCardComponent } from './../data-entity-card/data-entity-card.component';
+import { DataEntityCardComponent } from '../components/data-entity-card/data-entity-card.component';
 import { Injectable } from '@angular/core';
 import { DataEntityService } from './data-entity.service';
 import { DataEntityCard } from '../models/data-entity-card.model';

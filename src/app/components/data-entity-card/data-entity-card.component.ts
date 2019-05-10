@@ -1,8 +1,8 @@
-import { StatistikerService } from './../providers/statistiker.service';
-import { DataEntityCard } from '../models/data-entity-card.model';
+import { StatistikerService } from '../../providers/statistiker.service';
+import { DataEntityCard } from '../../models/data-entity-card.model';
 import { Component,  Input,   AfterViewInit,  ViewChild, ElementRef } from '@angular/core';
-import { LineService } from '../providers/line.service';
-import { DataEntityService } from '../providers/data-entity.service';
+import { LineService } from '../../providers/line.service';
+import { DataEntityService } from '../../providers/data-entity.service';
 
 
 @Component({

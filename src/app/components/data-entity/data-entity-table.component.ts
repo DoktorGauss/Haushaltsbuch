@@ -1,6 +1,6 @@
-import { DataEntityService } from './../providers/data-entity.service';
+import { DataEntityService } from '../../providers/data-entity.service';
 import { Component, OnInit } from '@angular/core';
-import { DataEntity } from '../models/data-entity.model';
+import { DataEntity } from '../../models/data-entity.model';
 
 
 @Component({

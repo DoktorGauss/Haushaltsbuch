@@ -126,7 +126,7 @@ export class LineService {
   }
 
   public createLineByType(x1, y1, x2, y2, type) {
-    console.log( "(x1,y1) = (" + x1 + ',' + y1 + ') ; (x2,y2) = (' + x2 + ',' + y2 + ')');
+    // console.log( "(x1,y1) = (" + x1 + ',' + y1 + ') ; (x2,y2) = (' + x2 + ',' + y2 + ')');
     var a = x1 - x2,
       b = y1 - y2,
       c = Math.sqrt(a * a + b * b);

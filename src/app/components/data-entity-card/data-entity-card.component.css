@@ -1,0 +1,100 @@
+#BasicDiv{
+    /* Position relativ weil es childs besitzt */
+    position: relative; 
+    width: 600px;
+    height: 300px;
+
+    margin: 10px;
+    padding: 10px;
+}
+
+#TopicDiv{
+    top: 0;
+    left: 0;
+    
+    width: 100%;
+    height: 10%;
+    background-color: aqua;
+}
+
+#CardDiv{
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+    height: 90%;
+    background-color: burlywood;
+    /* Position relative weil es childs besitzt */
+    position: relative;
+}
+
+#PastBasicDiv{
+    height: 100%;
+    width: 33.33%;
+
+    float: left;
+
+    background-color: darkgrey;
+
+    position: relative;
+}
+
+#CurrentBasicDiv{
+    height: 100%;
+    width: 33.33%;
+
+    float: left;
+
+    background-color: thistle;
+    position: relative;
+} 
+
+#PostBasicDiv{
+    height:100%;
+    width: 33.33%;
+
+    float: left;
+
+    background-color: darkgrey;
+
+    position: relative;
+}
+
+#PastDiv{
+    height: 95%;
+    width: 95%;
+    top: 0;
+    right: 0;
+    position: absolute;
+
+    border-left-style: solid;
+    border-bottom-style: solid;
+    
+    border-left-width: 1pt;
+    border-bottom-width: 1pt;
+}
+
+#CurrentDiv{
+    height: 97%;
+    width: 97%;
+    
+
+    
+    position: absolute;
+    border-style: ridge;
+    border-color:teal;
+}
+
+#PostDiv{
+    height: 95%;
+    width: 95%;
+    top: 0;
+    left: 0;
+    position: absolute;
+
+    border-right-style: solid;
+    border-right-width: 1pt;
+
+    border-bottom-style: solid;
+    border-bottom-width: thin;
+}
