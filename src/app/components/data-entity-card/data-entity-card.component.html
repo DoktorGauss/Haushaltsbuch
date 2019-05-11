@@ -1,6 +1,6 @@
 <div #BasicDiv id="BasicDiv">
   <div #TopicDiv id="TopicDiv">
-    {{CardTitle}}
+    <span>{{ [CardTitle | cardPipe] }}</span>
   </div>
   <div #CardDiv id="CardDiv">
     <div #PastBasicDiv id="PastBasicDiv">

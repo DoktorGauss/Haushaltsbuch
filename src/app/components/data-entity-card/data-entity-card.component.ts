@@ -1,6 +1,6 @@
 import { StatistikerService } from '../../providers/statistiker.service';
 import { DataEntityCard } from '../../models/data-entity-card.model';
-import { Component,  Input,   AfterViewInit,  ViewChild, ElementRef } from '@angular/core';
+import { Component,  Input,   AfterViewInit,  ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { LineService } from '../../providers/line.service';
 import { DataEntityService } from '../../providers/data-entity.service';
 
@@ -26,10 +26,10 @@ export class DataEntityCardComponent implements AfterViewInit {
   UeberschriftDurchschnittsValue: string = "Durchschnitt";
   PostValue: string = "0";
 
-  CardTitle: string = "Milch";
+  CardTitle: string;
   // @Output() click = new EventEmitter<DataEntityCard>();
 
-  constructor(private LineService: LineService, private dataEntityService: DataEntityService, private statistikerService: StatistikerService) {
+  constructor(private LineService: LineService, private dataEntityService: DataEntityService, private statistikerService: StatistikerService, private cdr: ChangeDetectorRef) {
   }
 
   ngAfterViewInit() {
@@ -40,6 +40,7 @@ export class DataEntityCardComponent implements AfterViewInit {
       this.DurchschnittValue = Number(this.statistikerService.calcMean( this.dataEntityService.createArray(this.dataEntityCard.PastValues, this.UeberschriftValue) ).toPrecision(2));
       this.updatePastDiv();
       this.updatePostDiv();
+      this.cdr.detectChanges();
       // this.PostValue = this.dataEntityCard.PostValue.PreisPS;
     }
   }

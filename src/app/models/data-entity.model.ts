@@ -11,19 +11,48 @@
         GescheatzerLohn = "GescheatzerLohn"
     }
 
-    // über diese Typen können Karten erstellt werden ==> Die Daten Liste neu sortiert
-    enum ForeignKey{
-        Datum = "Datum",
-        PID = "ProductID",
-        Type = "Type",
-        HerkunftID = "HerkunftID"
+
+
+    interface UnabhängigeVariable{
+        ID: number;
+        Date: Date;
+        DateID: number;
     }
 
-    enum PrimaryKey{
-        DataID = "DataID"
+    interface AbhängigeVariable{
+        Menge: number; 
+        PreisPS: number; 
+        PreisEinkauf: number;
+        DeltaPreis: number;
     }
+
+    interface Schlüssel{
+        ProduktID: number; 
+        ProduktType: DataType; 
+        HerkunftID: number; 
+    }
+
+    interface Darstellung{
+        DataName: string;
+        DataValue: string;
+    }
+
+    interface Speicher{
+        json: JSON;
+    }
+
 
 export class DataEntity {
+
+    unabhVar: UnabhängigeVariable;
+    abhVar: AbhängigeVariable;
+    schluessel: Schlüssel;
+    darstellung: Darstellung;
+
+    speicher: Speicher;
+
+
+
     // details
     DatumString: string;
     ProductName: string;
@@ -45,6 +74,7 @@ export class DataEntity {
     PreisPS: number; 
     PreisEinkauf: number;
     DeltaPreis: number;
+
 
 
 
@@ -74,7 +104,32 @@ export class DataEntity {
                 break;
         }
     }
-}
 
-// { DataID: 101, PID: 1, ProductName: 'Milch1', Menge: 1, PreisPS: 0.62, Preis: 0.68 },
-// 
+
+    getJSON(): JSON {
+        return this.speicher.json;
+    }
+
+    createJSON(uV: UnabhängigeVariable, aV: AbhängigeVariable, s: Schlüssel, d: Darstellung){
+        const obj: any = 
+        {
+            "id" : uV.ID.toString(),
+            "Date" : uV.Date.toString(),
+            "DateID" : uV.DateID.toString(),
+            "Menge" : aV.Menge.toString(),
+            "PreisPS" : aV.PreisPS.toString(),
+            "PreisEinkauf" : aV.PreisEinkauf.toString(),
+            "DeltaPreis" : aV.DeltaPreis.toString(),
+            "ProduktID" : s.ProduktID.toString(),
+            "ProduktType" : s.ProduktType.toString(),
+            "HerkunftID" : s.HerkunftID.toString(),
+            "DataName" : d.DataName.toString(),
+            "DataValue" : d.DataValue.toString()
+        };
+        return <JSON>obj;
+    }
+
+    createEntityFromJSON(json: JSON){
+
+    }
+}
