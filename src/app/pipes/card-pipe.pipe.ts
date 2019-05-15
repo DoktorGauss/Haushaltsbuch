@@ -8,5 +8,5 @@ export class CardPipePipe implements PipeTransform {
   transform(value: any, args?: any): any {
     return value;
   }
-
+  
 }
