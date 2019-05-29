@@ -1,3 +1,49 @@
+<head>
+  <script></script>
+</head>
 <p>
   camera-ocr works!
 </p>
+
+<div style="text-align:center">
+  <div>
+    <webcam id="Video" #Video [height]="100" [width]="100" [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showWebcam"
+            [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable"
+            [videoOptions]="videoOptions"
+            (cameraSwitched)="cameraWasSwitched($event)"
+            (initError)="handleInitError($event)"
+    ></webcam>
+    <br/>
+    <button class="actionBtn" (click)="triggerSnapshot();">Take A Snapshot</button>
+    <button class="actionBtn" (click)="toggleWebcam();">Toggle Webcam</button>
+    <button class="actionBtn" (click)="OCR();">make OCR</button>
+    <br/>
+    <!-- <button class="actionBtn" (click)="showNextWebcam(true);" [disabled]="!multipleWebcamsAvailable">Next Webcam</button>
+    <input id="cameraSwitchCheckbox" type="checkbox" [(ngModel)]="allowCameraSwitch"><label for="cameraSwitchCheckbox">Allow Camera Switch</label>
+    <br/>
+    DeviceId: <input id="deviceId" type="text" [(ngModel)]="deviceId" style="width: 500px">
+    <button (click)="showNextWebcam(deviceId);">Activate</button> -->
+  </div>
+</div>
+
+<div class="snapshot" *ngIf="webcamImage">
+  <h2>Nice one!</h2>
+  <img [src]="webcamImage.imageAsDataUrl"/>
+</div>
+
+<h4 *ngIf="errors.length > 0">Messages:</h4>
+<ul *ngFor="let error of errors">
+  <li>{{error | json}}</li>
+</ul>
+
+
+<img #pic1 id="pic1" src="../../../assets/LearningData/IsKassenBong/Kassenbon_2.jpg"> 
+<img #pic2 id="pic2" src="../../../assets/LearningData/IsKassenBong/Kassonbon_1.jpg"> 
+<img #pic3 id="pic3" src="../../../assets/LearningData/NoKassenBong/sjdaklösdjlköasd.jpg"> 
+<img #pic4 id="pic4" src="../../../assets/LearningData/NoKassenBong/gfsdgfdsgsdg.jpg"> 
+<img #pic5 id="pic5" src="../../../assets/LearningData/NoKassenBong/sdasdsadujhkfk.jpg"> 
+<img #pic6 id="pic6" src="../../../assets/LearningData/IsKassenBong/K3.jpg"> 
+<img #pic7 id="pic7" src="../../../assets/LearningData/IsKassenBong/K4.jpg"> 
+<img #pic8 id="pic8" src="../../../assets/LearningData/IsKassenBong/K5.jpg"> 
+
+<div id="isKassenBonText" style="border-block: 1px; border-block-color: black; background-color: gold"> {{isKassenBonText}}</div>
