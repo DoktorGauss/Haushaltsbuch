@@ -3,7 +3,7 @@ import { WebcamUtil } from './../../modules/webcam/util/webcam.util';
 import { Component, OnInit, Input, ViewChild, AfterViewInit } from '@angular/core';
 import { WebcamInitError, WebcamImage } from 'ngx-webcam';
 import { Subject, Observable } from 'rxjs';
-import { NeuralNetwork } from 'brain.js';
+import { NeuralNetwork, NeuralNetworkActivation } from 'brain.js';
 
 
 @Component({
@@ -52,6 +52,9 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
   @ViewChild('pic6') image6;
   @ViewChild('pic7') image7;
   @ViewChild('pic8') image8;
+  @ViewChild('pic9') image9;
+  @ViewChild('pic10') image10;
+
 
 
   public videoOptions: MediaTrackConstraints = {
@@ -102,6 +105,9 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
     var pixelData6 = this.getImageData(this.image6.nativeElement);
     var pixelData7 = this.getImageData(this.image7.nativeElement);
     var pixelData8 = this.getImageData(this.image8.nativeElement);
+    var pixelData9 = this.getImageData(this.image9.nativeElement);
+    var pixelData10 = this.getImageData(this.image10.nativeElement);
+
     
     var pixelData1TrainData = this.GetValuesOfRandomPixelInImage(pixelData1.data);
     var pixelData2TrainData = this.GetValuesOfRandomPixelInImage(pixelData2.data);
@@ -111,6 +117,9 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
     var pixelData6TrainData = this.GetValuesOfRandomPixelInImage(pixelData6.data);
     var pixelData7TrainData = this.GetValuesOfRandomPixelInImage(pixelData7.data);
     var pixelData8TrainData = this.GetValuesOfRandomPixelInImage(pixelData8.data);
+    var pixelData9TrainData = this.GetValuesOfRandomPixelInImage(pixelData9.data);
+    var pixelData10TrainData = this.GetValuesOfRandomPixelInImage(pixelData10.data);
+
 
     this.IsKassenZettel_NN.train([
       { input: pixelData1TrainData, output: [1] },
@@ -121,6 +130,9 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
       { input: pixelData6TrainData, output: [1] },
       { input: pixelData7TrainData, output: [1] },
       { input: pixelData8TrainData, output: [1] },
+      { input: pixelData9TrainData, output: [0] },
+      { input: pixelData10TrainData, output: [0] },
+
     ]);
     
 
