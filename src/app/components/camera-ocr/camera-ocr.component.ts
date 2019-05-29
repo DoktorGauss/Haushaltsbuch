@@ -15,6 +15,7 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
 
   @ViewChild('Video') WebCam: WebcamComponent;
   IsKassenZettel_NN: NeuralNetwork;
+  isKassenBonText: string;
   video = document.getElementById("video"); // added for clarity: this is needed
   i = 0;
 
@@ -46,6 +47,11 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
   @ViewChild('pic1') image1;
   @ViewChild('pic2') image2;
   @ViewChild('pic3') image3;
+  @ViewChild('pic4') image4;
+  @ViewChild('pic5') image5;
+  @ViewChild('pic6') image6;
+  @ViewChild('pic7') image7;
+  @ViewChild('pic8') image8;
 
 
   public videoOptions: MediaTrackConstraints = {
@@ -91,14 +97,30 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
     var pixelData1 = this.getImageData(this.image1.nativeElement);
     var pixelData2 = this.getImageData(this.image2.nativeElement);
     var pixelData3 = this.getImageData(this.image3.nativeElement);
+    var pixelData4 = this.getImageData(this.image4.nativeElement);
+    var pixelData5 = this.getImageData(this.image5.nativeElement);
+    var pixelData6 = this.getImageData(this.image6.nativeElement);
+    var pixelData7 = this.getImageData(this.image7.nativeElement);
+    var pixelData8 = this.getImageData(this.image8.nativeElement);
+    
     var pixelData1TrainData = this.GetValuesOfRandomPixelInImage(pixelData1.data);
     var pixelData2TrainData = this.GetValuesOfRandomPixelInImage(pixelData2.data);
     var pixelData3TrainData = this.GetValuesOfRandomPixelInImage(pixelData3.data);
+    var pixelData4TrainData = this.GetValuesOfRandomPixelInImage(pixelData4.data);
+    var pixelData5TrainData = this.GetValuesOfRandomPixelInImage(pixelData5.data);
+    var pixelData6TrainData = this.GetValuesOfRandomPixelInImage(pixelData6.data);
+    var pixelData7TrainData = this.GetValuesOfRandomPixelInImage(pixelData7.data);
+    var pixelData8TrainData = this.GetValuesOfRandomPixelInImage(pixelData8.data);
 
     this.IsKassenZettel_NN.train([
       { input: pixelData1TrainData, output: [1] },
       { input: pixelData2TrainData, output: [1] },
-      { input: pixelData3TrainData, output: [0] }
+      { input: pixelData3TrainData, output: [0] },
+      { input: pixelData4TrainData, output: [0] },
+      { input: pixelData5TrainData, output: [0] },
+      { input: pixelData6TrainData, output: [1] },
+      { input: pixelData7TrainData, output: [1] },
+      { input: pixelData8TrainData, output: [1] },
     ]);
     
 
@@ -144,6 +166,7 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
   public handleImage(webcamImage: WebcamImage): void {
     console.log('received webcam image', webcamImage);
     const imageData = webcamImage.imageData.data;
+    this.webcamImage = webcamImage;
     // const length = imageData.length;
     // var index = 0;
 
@@ -151,8 +174,16 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
 
     ColorValuesForNeuralNet = this.GetValuesOfRandomPixelInImage(imageData);
     var isKassenZettel = this.IsKassenZettel_NN.run(ColorValuesForNeuralNet);
-    this.webcamImage = webcamImage;
+    if(isKassenZettel[0] > 0.5){
+      this.isKassenBonText = "Yes";
+      document.getElementById("isKassenBonText").style.backgroundColor = "Green";
+    } else {
+      this.isKassenBonText = "False";
+      document.getElementById("isKassenBonText").style.backgroundColor = "Red";
+    }
   }
+
+
   private GetValuesOfRandomPixelInImage(imageData: Uint8ClampedArray) {
     var ColorValuesForNeuralNet: number[] = [];
     var index = 0;
