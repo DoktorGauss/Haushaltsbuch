@@ -4,9 +4,12 @@
 2. download nodejs https://nodejs.org/en/download/
 3. Open VS Code or download  https://code.visualstudio.com/Download
 4. Choose a folder
-5. Im Terminal: git clone https://github.com/DoktorGauss/Haushaltsbuch.git
-6. Im Terminal: npm install
-7. Im Terminal: ng serve --open
+5. Im Terminal bash auswählen NICHT Powershell
+6. Install node js => STRG + P => ext install npm script runner
+7. Im Terminal: npm install -g @angular/cli
+8. Im Terminal: git clone https://github.com/DoktorGauss/Haushaltsbuch.git
+9. Im Terminal: npm install
+10. Im Terminal: ng serve --open
 
 
 # Git Use
