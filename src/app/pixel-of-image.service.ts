@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class PixelOfImageService {
-  getImagePointFromPatternPoint(patternPoint: PixelPoint) {
+  getImagePointFromPatternPoint(patternPoint: PixelPoint): PixelPoint {
     throw new Error("Method not implemented.");
   }
   createPatternRect(arg0: number, arg1: number, arg2: number, arg3: number): any {

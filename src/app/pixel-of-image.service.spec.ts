@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { PixelOfImageService } from './pixel-of-image.service';
 
-describe('PixelOfImageService', () => {
+fdescribe('PixelOfImageService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
   
   it('should be created', () => {
@@ -10,6 +10,9 @@ describe('PixelOfImageService', () => {
     expect(service).toBeTruthy();
   });
 
+  describe('loading image Data tests', () => {
+
+  });
   it('should set Image data', () => {
     const service: PixelOfImageService = TestBed.get(PixelOfImageService);
     service.loadImage("NoKassenBon_9.jpg");
@@ -104,8 +107,9 @@ describe('PixelOfImageService', () => {
       y: 10
     };
 
-    const imagePoint = service.getImagePointFromPatternPoint(patternPoint);
-    
+    const imagePoint: PixelPoint = service.getImagePointFromPatternPoint(patternPoint);
+    expect(imagePoint.x).toEqual(20);
+    expect(imagePoint.y).toEqual(25);
   });
 });
 
