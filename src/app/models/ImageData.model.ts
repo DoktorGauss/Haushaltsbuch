@@ -6,8 +6,8 @@
   }
   
   export interface PixelRect {
-    UntenLinks: PixelPoint;
-    ObenRechts: PixelPoint;
+    untenLinks: PixelPoint;
+    obenRechts: PixelPoint;
   }
   
   export interface PixelPoint {
@@ -15,12 +15,7 @@
     y: number;
   }
   
-  export interface ImageData{
-    rgba_pixels : any[];
-    width: number;
-    height: number;
-  } 
-  
+
   export interface PixelData {
     r: number;
     g: number;

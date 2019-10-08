@@ -1,9 +1,11 @@
+import { FarbMenge } from './../../providers/maßof-rgb.service';
 import { WebcamComponent } from 'src/app/modules/webcam/webcam.component';
 import { WebcamUtil } from './../../modules/webcam/util/webcam.util';
 import { Component, OnInit, Input, ViewChild, AfterViewInit } from '@angular/core';
 import { WebcamInitError, WebcamImage } from 'ngx-webcam';
 import { Subject, Observable } from 'rxjs';
 import { NeuralNetwork, NeuralNetworkActivation, NeuralNetworkGPU, INeuralNetworkTrainingOptions } from 'brain.js';
+import { MaßOfRGBService } from 'src/app/providers/maßof-rgb.service';
 
 
 @Component({
@@ -41,7 +43,7 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
   i = 0;
   public multipleWebcamsAvailable = false;
 
-  constructor() {}
+  constructor(private maßOfRGBService : MaßOfRGBService) {}
 
   initNeuralNetworks() {
     // provide optional config object, defaults shown.
@@ -131,20 +133,26 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
       { input: this.GetPixelOfPattern(pixelYesData2.data, 500, ImageFilterPattern.crosshairs, { UntenLinks : { x : 0 , y: 0} , ObenRechts: { x: 100 , y: 100}}), output: [1] },
       { input: this.GetPixelOfPattern(pixelNoData2.data , 500, ImageFilterPattern.crosshairs, { UntenLinks : { x : 0 , y: 0} , ObenRechts: { x: 100 , y: 100}}), output: [0] },
       { input: this.GetPixelOfPattern(pixelYesData3.data, 500, ImageFilterPattern.crosshairs, { UntenLinks : { x : 0 , y: 0} , ObenRechts: { x: 100 , y: 100}}), output: [1] },
+      { input: this.GetPixelOfPattern(pixelYesData2.data, 500, ImageFilterPattern.crosshairs, { UntenLinks : { x : 0 , y: 0} , ObenRechts: { x: 100 , y: 100}}), output: [1] },
       { input: this.GetPixelOfPattern(pixelNoData3.data , 500, ImageFilterPattern.crosshairs, { UntenLinks : { x : 0 , y: 0} , ObenRechts: { x: 100 , y: 100}}), output: [0] },
       { input: this.GetPixelOfPattern(pixelYesData4.data, 500, ImageFilterPattern.crosshairs, { UntenLinks : { x : 0 , y: 0} , ObenRechts: { x: 100 , y: 100}}), output: [1] },
       { input: this.GetPixelOfPattern(pixelNoData4.data , 500, ImageFilterPattern.crosshairs, { UntenLinks : { x : 0 , y: 0} , ObenRechts: { x: 100 , y: 100}}), output: [0] },
+      { input: this.GetPixelOfPattern(pixelNoData2.data , 500, ImageFilterPattern.crosshairs, { UntenLinks : { x : 0 , y: 0} , ObenRechts: { x: 100 , y: 100}}), output: [0] },
       { input: this.GetPixelOfPattern(pixelYesData5.data, 500, ImageFilterPattern.crosshairs, { UntenLinks : { x : 0 , y: 0} , ObenRechts: { x: 100 , y: 100}}), output: [1] },
       { input: this.GetPixelOfPattern(pixelNoData5.data , 500, ImageFilterPattern.crosshairs, { UntenLinks : { x : 0 , y: 0} , ObenRechts: { x: 100 , y: 100}}), output: [0] },
+      { input: this.GetPixelOfPattern(pixelYesData1.data, 500, ImageFilterPattern.crosshairs, { UntenLinks : { x : 0 , y: 0} , ObenRechts: { x: 100 , y: 100}}), output: [1] },
       { input: this.GetPixelOfPattern(pixelYesData6.data, 500, ImageFilterPattern.crosshairs, { UntenLinks : { x : 0 , y: 0} , ObenRechts: { x: 100 , y: 100}}), output: [1] },
       { input: this.GetPixelOfPattern(pixelNoData6.data , 500, ImageFilterPattern.crosshairs, { UntenLinks : { x : 0 , y: 0} , ObenRechts: { x: 100 , y: 100}}), output: [0] },
+      { input: this.GetPixelOfPattern(pixelNoData1.data , 500, ImageFilterPattern.crosshairs, { UntenLinks : { x : 0 , y: 0} , ObenRechts: { x: 100 , y: 100}}), output: [0] },
       { input: this.GetPixelOfPattern(pixelYesData7.data, 500, ImageFilterPattern.crosshairs, { UntenLinks : { x : 0 , y: 0} , ObenRechts: { x: 100 , y: 100}}), output: [1] },
+      { input: this.GetPixelOfPattern(pixelYesData2.data, 500, ImageFilterPattern.crosshairs, { UntenLinks : { x : 0 , y: 0} , ObenRechts: { x: 100 , y: 100}}), output: [1] },
       { input: this.GetPixelOfPattern(pixelNoData7.data , 500, ImageFilterPattern.crosshairs, { UntenLinks : { x : 0 , y: 0} , ObenRechts: { x: 100 , y: 100}}), output: [0] }
     ], this.learnCOnfig);
     console.log("Training End");
   }
 
   getImageData(image) {
+    console.log(image);
     var canvas = document.createElement('canvas');
     canvas.width = image.width;
     canvas.height = image.height;
@@ -197,29 +205,7 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
   }
 
 
-  private GetValuesOfRandomPixelInImage(imageData: Uint8ClampedArray) {
-    var ColorValuesForNeuralNet: number[] = [];
-    var index = 0;
-    var length = imageData.length;
-    while (ColorValuesForNeuralNet.length < 500) {
-      index = index + Math.floor((Math.random() * length) + 0);
-      index = index % length;
-      index = index - index % 4;
-      if (index % 4 == 0) {
-        const rot = imageData[index];
-        const blau = imageData[index + 1];
-        const gruen = imageData[index + 2];
-        const alpha = imageData[index + 3];
-        const normal_rot = this.normalizeColor(rot);
-        const normal_blau = this.normalizeColor(blau);
-        const normal_gruen = this.normalizeColor(gruen);
-        const normal_alpha = this.normalizeColor(alpha);
-        const metrik = ((normal_rot + normal_blau + normal_gruen + normal_alpha) / (4));
-        ColorValuesForNeuralNet.push(metrik);
-      }
-    }
-    return ColorValuesForNeuralNet;
-  }
+  
 
 
   private GetPixelOfPattern(imageData: Uint8ClampedArray, anzahlPixel: number, order: ImageFilterPattern, imageRect: PixelRect) {
@@ -267,10 +253,12 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
       const jndex = obenLinks[1];
       // index == index ist die Diagonale (0,50), (1,50), (2,50), (3,50)
       const arrayIndex = this.getArrayIndexFromMatrixIndixes(i, jndex, zeilenLaenge, spaltenLaenge);
-      const maß = this.getMaßOfRGBA(imageData[arrayIndex+1],imageData[arrayIndex+2], imageData[arrayIndex+3]);
-      // returner.push(imageData[arrayIndex+0] / 255.0); //r
-      // returner.push(imageData[arrayIndex+1]); //g
-      // returner.push(imageData[arrayIndex+2]); //b
+      const rot: FarbMenge ={wert: imageData[arrayIndex+1] , min: 0 , max: 255};
+      const gelb: FarbMenge ={wert: imageData[arrayIndex+2] , min: 0 , max: 255};
+      const blau: FarbMenge ={wert: imageData[arrayIndex+3] , min: 0 , max: 255};
+
+
+      const maß = this.maßOfRGBService.getMaßRGB(rot, gelb,blau);
       returner.push(maß);
     }
     // * .  .   . 
@@ -282,10 +270,12 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
       const jndex = obenLinks[1] + index;
       // index == index ist die Diagonale (0,50), (1,50), (2,50), (3,50)
       const arrayIndex = this.getArrayIndexFromMatrixIndixes(i, jndex, zeilenLaenge, spaltenLaenge);
-      const maß = this.getMaßOfRGBA(imageData[arrayIndex+1],imageData[arrayIndex+2], imageData[arrayIndex+3]);
-      // returner.push(imageData[arrayIndex+0] / 255.0); //r
-      // returner.push(imageData[arrayIndex+1]); //g
-      // returner.push(imageData[arrayIndex+2]); //b
+      const rot: FarbMenge ={wert: imageData[arrayIndex+1] , min: 0 , max: 255};
+      const gelb: FarbMenge ={wert: imageData[arrayIndex+2] , min: 0 , max: 255};
+      const blau: FarbMenge ={wert: imageData[arrayIndex+3] , min: 0 , max: 255};
+
+
+      const maß = this.maßOfRGBService.getMaßRGB(rot, gelb,blau);
       returner.push(maß);
     }
     // * .  .   . .
@@ -297,10 +287,12 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
       const jndex = untenRechts[1];
       // index == index ist die Diagonale (0,50), (1,50), (2,50), (3,50)
       const arrayIndex = this.getArrayIndexFromMatrixIndixes(i, jndex, zeilenLaenge, spaltenLaenge);
-      const maß = this.getMaßOfRGBA(imageData[arrayIndex+1],imageData[arrayIndex+2], imageData[arrayIndex+3]);
-      // returner.push(imageData[arrayIndex+0] / 255.0); //r
-      // returner.push(imageData[arrayIndex+1]); //g
-      // returner.push(imageData[arrayIndex+2]); //b
+      const rot: FarbMenge ={wert: imageData[arrayIndex+1] , min: 0 , max: 255};
+      const gelb: FarbMenge ={wert: imageData[arrayIndex+2] , min: 0 , max: 255};
+      const blau: FarbMenge ={wert: imageData[arrayIndex+3] , min: 0 , max: 255};
+
+
+      const maß = this.maßOfRGBService.getMaßRGB(rot, gelb,blau);
       returner.push(maß);
     }
     // * .  .   . .
@@ -312,10 +304,12 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
       const jndex = untenRechts[1] - index;
       // index == index ist die Diagonale (0,50), (1,50), (2,50), (3,50)
       const arrayIndex = this.getArrayIndexFromMatrixIndixes(i, jndex, zeilenLaenge, spaltenLaenge);
-      const maß = this.getMaßOfRGBA(imageData[arrayIndex+1],imageData[arrayIndex+2], imageData[arrayIndex+3]);
-      // returner.push(imageData[arrayIndex+0] / 255.0); //r
-      // returner.push(imageData[arrayIndex+1]); //g
-      // returner.push(imageData[arrayIndex+2]); //b
+      const rot: FarbMenge ={wert: imageData[arrayIndex+1] , min: 0 , max: 255};
+      const gelb: FarbMenge ={wert: imageData[arrayIndex+2] , min: 0 , max: 255};
+      const blau: FarbMenge ={wert: imageData[arrayIndex+3] , min: 0 , max: 255};
+
+
+      const maß = this.maßOfRGBService.getMaßRGB(rot, gelb,blau);
       returner.push(maß);
     }
     return returner;
@@ -331,10 +325,12 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
       const jndex = mittlereSpalte;
       // index == index ist die Diagonale (0,50), (1,50), (2,50), (3,50)
       const arrayIndex = this.getArrayIndexFromMatrixIndixes(index, jndex, zeilenLaenge, spaltenLaenge);
-      const maß = this.getMaßOfRGBA(imageData[arrayIndex+1],imageData[arrayIndex+2], imageData[arrayIndex+3]);
-      // returner.push(imageData[arrayIndex+0] / 255.0); //r
-      // returner.push(imageData[arrayIndex+1]); //g
-      // returner.push(imageData[arrayIndex+2]); //b
+      const rot: FarbMenge ={wert: imageData[arrayIndex+1] , min: 0 , max: 255};
+      const gelb: FarbMenge ={wert: imageData[arrayIndex+2] , min: 0 , max: 255};
+      const blau: FarbMenge ={wert: imageData[arrayIndex+3] , min: 0 , max: 255};
+
+
+      const maß = this.maßOfRGBService.getMaßRGB(rot, gelb,blau);
       returner.push(maß);
     }
     return returner;
@@ -349,10 +345,12 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
       const jndex = mittlereZeile;
       // index == index ist die Diagonale (50,1), (50,2), (50,3), (50,4)
       const arrayIndex = this.getArrayIndexFromMatrixIndixes(jndex, index, zeilenLaenge, spaltenLaenge);
-      const maß = this.getMaßOfRGBA(imageData[arrayIndex+1],imageData[arrayIndex+2], imageData[arrayIndex+3]);
-      // returner.push(imageData[arrayIndex+0] / 255.0); //r
-      // returner.push(imageData[arrayIndex+1]); //g
-      // returner.push(imageData[arrayIndex+2]); //b
+      const rot: FarbMenge ={wert: imageData[arrayIndex+1] , min: 0 , max: 255};
+      const gelb: FarbMenge ={wert: imageData[arrayIndex+2] , min: 0 , max: 255};
+      const blau: FarbMenge ={wert: imageData[arrayIndex+3] , min: 0 , max: 255};
+
+
+      const maß = this.maßOfRGBService.getMaßRGB(rot, gelb,blau);
       returner.push(maß);
     }
     return returner;
@@ -367,10 +365,12 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
       const jndex = spaltenAnzahl - index;
       // index == index ist die Diagonale (0,100), (1,99), (2,98), (3,97)
       const arrayIndex = this.getArrayIndexFromMatrixIndixes(index, jndex, zeilenLaenge, spaltenLaenge);
-      const maß = this.getMaßOfRGBA(imageData[arrayIndex+1],imageData[arrayIndex+2], imageData[arrayIndex+3]);
-      // returner.push(imageData[arrayIndex+0] / 255.0); //r
-      // returner.push(imageData[arrayIndex+1]); //g
-      // returner.push(imageData[arrayIndex+2]); //b
+      const rot: FarbMenge ={wert: imageData[arrayIndex+1] , min: 0 , max: 255};
+      const gelb: FarbMenge ={wert: imageData[arrayIndex+2] , min: 0 , max: 255};
+      const blau: FarbMenge ={wert: imageData[arrayIndex+3] , min: 0 , max: 255};
+
+
+      const maß = this.maßOfRGBService.getMaßRGB(rot, gelb,blau);
       returner.push(maß);
     }
     return returner;
@@ -385,7 +385,12 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
       const jndex = index;
       // index == jndex ist die Diagonale (0,0), (1,1), (2,2), (3,3)
       const arrayIndex = this.getArrayIndexFromMatrixIndixes(index,jndex, zeilenLaenge, spaltenLaenge);
-      const maß = this.getMaßOfRGBA(imageData[arrayIndex+1],imageData[arrayIndex+2], imageData[arrayIndex+3]);
+      const rot: FarbMenge ={wert: imageData[arrayIndex+1] , min: 0 , max: 255};
+      const gelb: FarbMenge ={wert: imageData[arrayIndex+2] , min: 0 , max: 255};
+      const blau: FarbMenge ={wert: imageData[arrayIndex+3] , min: 0 , max: 255};
+
+
+      const maß = this.maßOfRGBService.getMaßRGB(rot, gelb,blau);
       // returner.push(imageData[arrayIndex+0] / 255.0); //r
       // returner.push(imageData[arrayIndex+1]); //g
       // returner.push(imageData[arrayIndex+2]); //b
@@ -398,29 +403,7 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
     return  (zeile)*zeilenLaenge + (spalte) * spaltenLaenge;
   }
 
-  private getMaßOfRGBA(rot: number, blau: number, gruen: number) {
-    const normal_rot = this.normalizeColor(rot);
-    const normal_blau = this.normalizeColor(blau);
-    const normal_gruen = this.normalizeColor(gruen);
-    // const normal_alpha = this.normalizeColor(alpha);
-    const metrik = ((normal_rot + normal_blau + normal_gruen ) / (3));
-    return metrik;
-  }
 
-  private getRandomPixelInRect(rect: PixelRect, pixelArray: Uint8ClampedArray, imageRect: PixelRect) {
-    const indexGlobalColumn = imageRect.ObenRechts.x - imageRect.UntenLinks.x;
-    const indexGlobalRow = imageRect.UntenLinks.y - imageRect.ObenRechts.y;
-
-    const indexLocalColumn = rect.ObenRechts.x - rect.UntenLinks.x;
-    const indexLocalRow = rect.UntenLinks.y - rect.ObenRechts.y;
-
-
-
-  }
-
-  normalizeColor(color: number) {
-    return (color) / (255);
-  }
 
   public cameraWasSwitched(deviceId: string): void {
     console.log('active device: ' + deviceId);

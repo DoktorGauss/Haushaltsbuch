@@ -5,16 +5,18 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class PixelOfImageService {
+
+  PatternRect: PixelRect;
+  FilterPattern: ImageFilterPattern;
+  ImageRect: PixelRect;
+  ImageData: ImageData;
+
+
   getPixelDataFromPatternPoint(patternPoint: PixelPoint): PixelData {
+    
     throw new Error("Method not implemented.");
   }
   getPixelDataFromImagePoint(imagePoint: PixelPoint): PixelData {
-    throw new Error("Method not implemented.");
-  }
-  loadImageByAPIID(arg0: number, arg1: string) {
-    throw new Error("Method not implemented.");
-  }
-  loadImageByAPI(arg0: string, arg1: string) {
     throw new Error("Method not implemented.");
   }
   getImagePointFromPatternPoint(patternPoint: PixelPoint): PixelPoint {
@@ -27,23 +29,37 @@ export class PixelOfImageService {
     throw new Error("Method not implemented.");
   }
 
-  PatternRect: PixelRect;
 
-  createImageRect(ImageData: any): any {
+  createImageRect(ImageData: ImageData): any {
     throw new Error("Method not implemented.");
   }
+
   
-  FilterPattern: ImageFilterPattern;
-  
-  ImageRect: PixelRect;
 
   setPattern(all: ImageFilterPattern) {
     throw new Error("Method not implemented.");
   }
-  ImageData: any;
+  
   loadImage(arg0: string) {
     throw new Error("Method not implemented.");
   }
+
+  getImageData(image){
+    var canvas = document.createElement('canvas');
+    canvas.width = image.width;
+    canvas.height = image.height;
+    var context = canvas.getContext('2d');
+    context.drawImage(image, 0, 0);
+    return context.getImageData(0, 0, image.width, image.height);
+  }
+  
+  loadImageByAPIID(arg0: number, arg1: string) {
+    throw new Error("Method not implemented.");
+  }
+  loadImageByAPI(arg0: string, arg1: string) {
+    throw new Error("Method not implemented.");
+  }
+  
 
   constructor() { }
 }

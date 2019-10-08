@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { PixelOfImageService } from './pixel-of-image.service';
 import { ImageFilterPattern, PixelRect, PixelPoint, PixelData } from './models/ImageData.model';
 
-fdescribe('PixelOfImageService', () => {
+xdescribe('PixelOfImageService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
   
   it('should be created', () => {
@@ -16,7 +16,7 @@ fdescribe('PixelOfImageService', () => {
       const service: PixelOfImageService = TestBed.get(PixelOfImageService);
       service.loadImage("NoKassenBon_9.jpg");
       expect(service.ImageData).toBeDefined();
-      expect(service.ImageData.rgba_pixels).toBeDefined();
+      expect(service.ImageData.data).toBeDefined();
       expect(service.ImageData.width).toBeDefined();
       expect(service.ImageData.height).toBeDefined();
     });
@@ -25,7 +25,7 @@ fdescribe('PixelOfImageService', () => {
       const service: PixelOfImageService = TestBed.get(PixelOfImageService);
       service.loadImageByAPI("1", "https://jsonplaceholder.typicode.com/todos/");
       expect(service.ImageData).toBeDefined();
-      expect(service.ImageData.rgba_pixels).toBeDefined();
+      expect(service.ImageData.data).toBeDefined();
       expect(service.ImageData.width).toBeDefined();
       expect(service.ImageData.height).toBeDefined();
     });
@@ -34,7 +34,16 @@ fdescribe('PixelOfImageService', () => {
       const service: PixelOfImageService = TestBed.get(PixelOfImageService);
       service.loadImageByAPIID(1, "https://jsonplaceholder.typicode.com/todos/1");
       expect(service.ImageData).toBeDefined();
-      expect(service.ImageData.rgba_pixels).toBeDefined();
+      expect(service.ImageData.data).toBeDefined();
+      expect(service.ImageData.width).toBeDefined();
+      expect(service.ImageData.height).toBeDefined();
+    });
+
+    it('should set Image data by image', () => {
+      const service: PixelOfImageService = TestBed.get(PixelOfImageService);
+      service.loadImageByAPIID(1, "https://jsonplaceholder.typicode.com/todos/1");
+      expect(service.ImageData).toBeDefined();
+      expect(service.ImageData.data).toBeDefined();
       expect(service.ImageData.width).toBeDefined();
       expect(service.ImageData.height).toBeDefined();
     });
@@ -62,12 +71,12 @@ fdescribe('PixelOfImageService', () => {
     service.loadImage("NoKassenBon_9.jpg");    
     service.ImageRect = service.createImageRect(service.ImageData);
     expect(service.ImageRect).toBeDefined();
-    expect(service.ImageRect.UntenLinks).toBeDefined();
-    expect(service.ImageRect.ObenRechts).toBeDefined();
-    expect(service.ImageRect.UntenLinks.x).toBe(0);
-    expect(service.ImageRect.ObenRechts.y).toBe(0);
-    expect(service.ImageRect.UntenLinks.y).toBe(service.ImageData.height);
-    expect(service.ImageRect.ObenRechts.x).toBe(service.ImageData.width);
+    expect(service.ImageRect.untenLinks).toBeDefined();
+    expect(service.ImageRect.obenRechts).toBeDefined();
+    expect(service.ImageRect.untenLinks.x).toBe(0);
+    expect(service.ImageRect.obenRechts.y).toBe(0);
+    expect(service.ImageRect.untenLinks.y).toBe(service.ImageData.height);
+    expect(service.ImageRect.obenRechts.x).toBe(service.ImageData.width);
   });
 
   it('should set pattern Rectangle in Image Rectangle', () => {
@@ -75,34 +84,34 @@ fdescribe('PixelOfImageService', () => {
     service.loadImage("NoKassenBon_9.jpg");    
     service.ImageRect = service.createImageRect(service.ImageData);
     const patternRect: PixelRect = {
-      UntenLinks: {
+      untenLinks: {
         x: 10,
         y: 45
       },
-      ObenRechts: {
+      obenRechts: {
         x: 35,
         y: 15
       }
     }
     service.setPatternRect(patternRect);
     expect(service.PatternRect).toBeDefined();
-    expect(service.PatternRect.UntenLinks).toBeDefined();
-    expect(service.PatternRect.ObenRechts).toBeDefined();
-    expect(service.PatternRect.UntenLinks.x).toBe(patternRect.UntenLinks.x);
-    expect(service.PatternRect.ObenRechts.y).toBe(patternRect.ObenRechts.y);
-    expect(service.PatternRect.UntenLinks.y).toBe(patternRect.UntenLinks.y);
-    expect(service.PatternRect.ObenRechts.x).toBe(patternRect.ObenRechts.x);
+    expect(service.PatternRect.untenLinks).toBeDefined();
+    expect(service.PatternRect.obenRechts).toBeDefined();
+    expect(service.PatternRect.untenLinks.x).toBe(patternRect.untenLinks.x);
+    expect(service.PatternRect.obenRechts.y).toBe(patternRect.obenRechts.y);
+    expect(service.PatternRect.untenLinks.y).toBe(patternRect.untenLinks.y);
+    expect(service.PatternRect.obenRechts.x).toBe(patternRect.obenRechts.x);
 
     service.PatternRect = null;
     
     service.PatternRect = service.createPatternRect(10, 45, 35, 15);
     expect(service.PatternRect).toBeDefined();
-    expect(service.PatternRect.UntenLinks).toBeDefined();
-    expect(service.PatternRect.ObenRechts).toBeDefined();
-    expect(service.PatternRect.UntenLinks.x).toBe(10);
-    expect(service.PatternRect.ObenRechts.y).toBe( 45);
-    expect(service.PatternRect.UntenLinks.y).toBe(35);
-    expect(service.PatternRect.ObenRechts.x).toBe(15);
+    expect(service.PatternRect.untenLinks).toBeDefined();
+    expect(service.PatternRect.obenRechts).toBeDefined();
+    expect(service.PatternRect.untenLinks.x).toBe(10);
+    expect(service.PatternRect.obenRechts.y).toBe( 45);
+    expect(service.PatternRect.untenLinks.y).toBe(35);
+    expect(service.PatternRect.obenRechts.x).toBe(15);
   });
 
   it('Transform PatternCoordinates in ImageCoordinates', () => {
@@ -110,11 +119,11 @@ fdescribe('PixelOfImageService', () => {
     service.loadImage("NoKassenBon_9.jpg");    
     service.ImageRect = service.createImageRect(service.ImageData);
     const patternRect: PixelRect = {
-      UntenLinks: {
+      untenLinks: {
         x: 10,
         y: 45
       },
-      ObenRechts: {
+      obenRechts: {
         x: 35,
         y: 15
       }
@@ -140,16 +149,20 @@ fdescribe('PixelOfImageService', () => {
     expect(imagePoint2.y).toEqual(15);
   });
 
+  it('transform imageCoordinates in ArrayIndex', () => {
+
+  });
+
   it('get pixeldata of transformed patternCoord ', () => {
     const service: PixelOfImageService = TestBed.get(PixelOfImageService);
     service.loadImage("NoKassenBon_9.jpg");    
     service.ImageRect = service.createImageRect(service.ImageData);
     const patternRect: PixelRect = {
-      UntenLinks: {
+      untenLinks: {
         x: 10,
         y: 45
       },
-      ObenRechts: {
+      obenRechts: {
         x: 35,
         y: 15
       }
@@ -186,11 +199,11 @@ fdescribe('PixelOfImageService', () => {
     service.loadImage("NoKassenBon_9.jpg");    
     service.ImageRect = service.createImageRect(service.ImageData);
     const patternRect: PixelRect = {
-      UntenLinks: {
+      untenLinks: {
         x: 10,
         y: 45
       },
-      ObenRechts: {
+      obenRechts: {
         x: 35,
         y: 15
       }
