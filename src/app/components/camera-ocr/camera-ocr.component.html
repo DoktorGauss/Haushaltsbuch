@@ -7,9 +7,10 @@
 
 <div style="text-align:center">
   <div>
-    <webcam id="Video" #Video [height]="100" [width]="100" [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showWebcam"
+    <webcam id="Video" #Video [height]="500" [width]="500" [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showWebcam"
             [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable"
             [videoOptions]="videoOptions"
+            [imageQuality]="1"
             (cameraSwitched)="cameraWasSwitched($event)"
             (initError)="handleInitError($event)"
     ></webcam>
@@ -24,13 +25,13 @@
     DeviceId: <input id="deviceId" type="text" [(ngModel)]="deviceId" style="width: 500px">
     <button (click)="showNextWebcam(deviceId);">Activate</button> -->
   </div>
+  <div #isKassenBonDiv id="isKassenBonDiv" style="border-block: 1px; border-block-color: black; background-color: gold"> {{isKassenBonText}}</div>
 </div>
 
 <div id="SnapShot" class="snapshot" *ngIf="webcamImage">
   <h2>Nice one!</h2>
   <img [src]="webcamImage.imageAsDataUrl"/>
 </div>
-<div #isKassenBonDiv id="isKassenBonDiv" style="border-block: 1px; border-block-color: black; background-color: gold"> {{isKassenBonText}}</div>
 
 <h4 *ngIf="errors.length > 0">Messages:</h4>
 <ul *ngFor="let error of errors">
