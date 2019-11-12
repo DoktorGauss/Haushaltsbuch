@@ -6,6 +6,7 @@ import { WebcamInitError, WebcamImage } from 'ngx-webcam';
 import { Subject, Observable } from 'rxjs';
 import { NeuralNetwork, NeuralNetworkActivation, NeuralNetworkGPU, INeuralNetworkTrainingOptions } from 'brain.js';
 import { MaßOfRGBService } from 'src/app/providers/maßof-rgb.service';
+import { ClusterService } from 'src/app/shared/services/cluster.service';
 
 
 @Component({
@@ -43,9 +44,10 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
   i = 0;
   public multipleWebcamsAvailable = false;
 
-  constructor(private maßOfRGBService: MaßOfRGBService) { }
+  constructor(private maßOfRGBService: MaßOfRGBService, private clusterService: ClusterService) { }
 
   initNeuralNetworks() {
+
     // provide optional config object, defaults shown.
     const sigmoid: NeuralNetworkActivation = 'sigmoid';
     const relu: NeuralNetworkActivation = 'relu';
@@ -62,7 +64,7 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
     this.learnCOnfig = {
       iterations: 6000, // the maximum times to iterate the training data
       errorThresh: 0.005, // the acceptable error percentage from training data
-      log: false, // true to use console.log, when a function is supplied it is used
+      log: true, // true to use console.log, when a function is supplied it is used
       logPeriod: 10, // iterations between logging out
       learningRate: 0.31415, // multiply's against the input and the delta then adds to momentum
       momentum: 0.016180339887, // multiply's against the specified "change" then adds to learning rate for change
@@ -130,27 +132,27 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
     var pixelNoData7 = this.getImageData(this.LD_No_7.nativeElement);
 
     console.log("Training start!");
-    this.IsKassenZettel_NN.train([
-      { input: this.GetPixelOfPattern(pixelYesData1.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [1] },
-      { input: this.GetPixelOfPattern(pixelNoData1.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [0] },
-      { input: this.GetPixelOfPattern(pixelYesData2.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [1] },
-      { input: this.GetPixelOfPattern(pixelNoData2.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [0] },
-      { input: this.GetPixelOfPattern(pixelYesData3.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [1] },
-      { input: this.GetPixelOfPattern(pixelYesData2.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [1] },
-      { input: this.GetPixelOfPattern(pixelNoData3.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [0] },
-      { input: this.GetPixelOfPattern(pixelYesData4.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [1] },
-      { input: this.GetPixelOfPattern(pixelNoData4.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [0] },
-      { input: this.GetPixelOfPattern(pixelNoData2.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [0] },
-      { input: this.GetPixelOfPattern(pixelYesData5.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [1] },
-      { input: this.GetPixelOfPattern(pixelNoData5.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [0] },
-      { input: this.GetPixelOfPattern(pixelYesData1.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [1] },
-      { input: this.GetPixelOfPattern(pixelYesData6.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [1] },
-      { input: this.GetPixelOfPattern(pixelNoData6.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [0] },
-      { input: this.GetPixelOfPattern(pixelNoData1.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [0] },
-      { input: this.GetPixelOfPattern(pixelYesData7.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [1] },
-      { input: this.GetPixelOfPattern(pixelYesData2.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [1] },
-      { input: this.GetPixelOfPattern(pixelNoData7.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [0] }
-    ], this.learnCOnfig);
+    // this.IsKassenZettel_NN.train([
+      // { input: this.GetPixelOfPattern(pixelYesData1.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [1] },
+      // { input: this.GetPixelOfPattern(pixelNoData1.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [0] },
+      // { input: this.GetPixelOfPattern(pixelYesData2.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [1] },
+      // { input: this.GetPixelOfPattern(pixelNoData2.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [0] },
+      // { input: this.GetPixelOfPattern(pixelYesData3.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [1] },
+      // { input: this.GetPixelOfPattern(pixelYesData2.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [1] },
+      // { input: this.GetPixelOfPattern(pixelNoData3.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [0] },
+      // { input: this.GetPixelOfPattern(pixelYesData4.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [1] },
+      // { input: this.GetPixelOfPattern(pixelNoData4.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [0] },
+      // { input: this.GetPixelOfPattern(pixelNoData2.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [0] },
+      // { input: this.GetPixelOfPattern(pixelYesData5.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [1] },
+      // { input: this.GetPixelOfPattern(pixelNoData5.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [0] },
+      // { input: this.GetPixelOfPattern(pixelYesData1.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [1] },
+      // { input: this.GetPixelOfPattern(pixelYesData6.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [1] },
+      // { input: this.GetPixelOfPattern(pixelNoData6.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [0] },
+      // { input: this.GetPixelOfPattern(pixelNoData1.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [0] },
+      // { input: this.GetPixelOfPattern(pixelYesData7.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [1] },
+      // { input: this.GetPixelOfPattern(pixelYesData2.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [1] },
+      // { input: this.GetPixelOfPattern(pixelNoData7.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [0] }
+    // ], this.learnCOnfig);
     console.log("Training End");
     console.log(this.IsKassenZettel_NN.toJSON());
   }
@@ -203,6 +205,7 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
     this.callNetLoop(imageData);
   }
   callNetLoop(imageData: Uint8ClampedArray) {
+    this.clusterService.getKMeansCluster(20,imageData,0,255);
     var colorValuesForBonRecognition: number[] = [];
     colorValuesForBonRecognition = this.GetPixelOfPattern(imageData, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } });
     var isKassenZettel = this.IsKassenZettel_NN.run(colorValuesForBonRecognition);
@@ -411,7 +414,7 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
     return returner;
   }
 
-  getArrayIndexFromMatrixIndixes(zeile: number, spalte: number, zeilenLaenge: number, spaltenLaenge: number) {
+getArrayIndexFromMatrixIndixes(zeile: number, spalte: number, zeilenLaenge: number, spaltenLaenge: number) {
     return (zeile) * zeilenLaenge + (spalte) * spaltenLaenge;
   }
 
