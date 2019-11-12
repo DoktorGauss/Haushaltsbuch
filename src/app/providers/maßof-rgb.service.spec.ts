@@ -153,6 +153,7 @@ fdescribe('MaßOfRGBService', () => {
                 }
               }
             }
+            expect(sum).toBe((256*256*256)/2.0)
         });
     });
   });
