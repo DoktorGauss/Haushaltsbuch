@@ -13,7 +13,7 @@ export class ClusterService {
   oneDimensionalData: number[] = [];
   clusterData: number[] = [];
 
-  getKMeansCluster(k: number, X: any, min: number, max: number) {
+  getKMeansCluster(k: number, X: any, min: number, max: number): number[] {
     let C: number[] = ([...Array(k).fill(0)]); // k size array
     C = C.map(e => this.getRandomColorNormalized()); // fill it with random color
     let delta = 1; // store the delta
@@ -22,7 +22,7 @@ export class ClusterService {
       const element = C[index];
       S.push([]);
     }
-    debugger; 	
+    // debugger; 	
     while (delta > 0.0005) {
       delta = 0;
       for (let index = 0; index < X.length; index = index + 4) {
@@ -48,10 +48,8 @@ export class ClusterService {
         count++;
       });
       delta = delta/k;
-      console.log(C);
-      console.log(delta);
-      debugger;
     }
+    return C;
   }
 
   getRandomColorNormalized(min: number = 0, max: number = 255): number {
@@ -63,6 +61,10 @@ export class ClusterService {
     const blau: FarbMenge = { wert: random0255(), min: 0, max: 255 };
     const maß: number = this.maßOfRGBService.getMaßRGB(rot, gelb, blau);
     return maß;
+  }
+
+  getClusterImage( cluster: number[], imageData: any){
+    
   }
 }
 
