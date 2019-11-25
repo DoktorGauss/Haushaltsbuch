@@ -11,6 +11,7 @@ import { SecondaryKey } from './secundary-key';
 export class BaseEntity {
     id: PrimaryKey_ID;
     name: SecondaryKey<string>;
+
     constructor(){
         this.id = new PrimaryKey_ID();
         this.name = new SecondaryKey<string>('BaseEntity');
