@@ -6,24 +6,24 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 
 describe('DataEntityTableComponent', () => {
-  let component: DataEntityTableComponent;
-  let fixture: ComponentFixture<DataEntityTableComponent>;
+  // let component: DataEntityTableComponent;
+  // let fixture: ComponentFixture<DataEntityTableComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ DataEntityTableComponent, GridComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    })
-    .compileComponents();
-  }));
+  // beforeEach(async(() => {
+  //   TestBed.configureTestingModule({
+  //     declarations: [ DataEntityTableComponent, GridComponent],
+  //     schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  //   })
+  //   .compileComponents();
+  // }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(DataEntityTableComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  // beforeEach(() => {
+  //   fixture = TestBed.createComponent(DataEntityTableComponent);
+  //   component = fixture.componentInstance;
+  //   fixture.detectChanges();
+  // });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  // it('should create', () => {
+  //   expect(component).toBeTruthy();
+  // });
 });

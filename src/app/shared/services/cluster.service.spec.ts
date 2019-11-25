@@ -1,14 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { MathService } from './math.service';
+import { ClusterService } from './cluster.service';
 
-describe('MathService', () => {
+describe('ClusterService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: MathService = TestBed.get(MathService);
+    const service: ClusterService = TestBed.get(ClusterService);
     expect(service).toBeTruthy();
   });
-
-  
 });
