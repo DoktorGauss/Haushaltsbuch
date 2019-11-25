@@ -8,8 +8,9 @@
 6. Install node js => STRG + P => ext install npm script runner
 7. Im Terminal: npm install -g @angular/cli
 8. Im Terminal: git clone https://github.com/DoktorGauss/Haushaltsbuch.git
-9. Im Terminal: npm install
-10. Im Terminal: ng serve --open
+9. Im Terminal: cd Haushaltsbuch
+10. Im Terminal: npm install
+11. Im Terminal: ng serve --open
 
 
 # Git Use
