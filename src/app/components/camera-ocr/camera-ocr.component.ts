@@ -1,9 +1,12 @@
+import { FarbMenge } from './../../providers/maßof-rgb.service';
 import { WebcamComponent } from 'src/app/modules/webcam/webcam.component';
 import { WebcamUtil } from './../../modules/webcam/util/webcam.util';
-import { Component, OnInit, Input, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, AfterViewInit, OnChanges } from '@angular/core';
 import { WebcamInitError, WebcamImage } from 'ngx-webcam';
 import { Subject, Observable } from 'rxjs';
-import { NeuralNetwork, NeuralNetworkActivation, NeuralNetworkGPU } from 'brain.js';
+import { NeuralNetwork, NeuralNetworkActivation, NeuralNetworkGPU, INeuralNetworkTrainingOptions } from 'brain.js';
+import { MaßOfRGBService } from 'src/app/providers/maßof-rgb.service';
+import { ClusterService } from 'src/app/shared/services/cluster.service';
 
 
 @Component({
@@ -34,25 +37,41 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
 
 
   IsKassenZettel_NN: NeuralNetworkGPU;
-
+  learnCOnfig: INeuralNetworkTrainingOptions;
 
   isKassenBonText: string = "";
   video = document.getElementById("video"); // added for clarity: this is needed
   i = 0;
   public multipleWebcamsAvailable = false;
 
-  constructor() {}
+  constructor(private maßOfRGBService: MaßOfRGBService, private clusterService: ClusterService) { }
 
   initNeuralNetworks() {
+
     // provide optional config object, defaults shown.
     const sigmoid: NeuralNetworkActivation = 'sigmoid';
+    const relu: NeuralNetworkActivation = 'relu';
+
     const config = {
-      inputSize: 500,
-      hiddenLayers: [20, 20],
+      inputSize: 1500,
+      hiddenLayers: [50, 50, 50, 50, 50],
       outputSize: 1,
       learningRate: 0.01,
       decayRate: 0.999,
       activation: sigmoid
+    };
+
+    this.learnCOnfig = {
+      iterations: 6000, // the maximum times to iterate the training data
+      errorThresh: 0.005, // the acceptable error percentage from training data
+      log: true, // true to use console.log, when a function is supplied it is used
+      logPeriod: 10, // iterations between logging out
+      learningRate: 0.31415, // multiply's against the input and the delta then adds to momentum
+      momentum: 0.016180339887, // multiply's against the specified "change" then adds to learning rate for change
+      callback: null, // a periodic call back that can be triggered while training
+      callbackPeriod: 10, // the number of iterations through the training data between callback calls
+      timeout: Infinity, // the max number of milliseconds to train for
+      praxis: null
     };
 
     this.IsKassenZettel_NN = new NeuralNetworkGPU(config);
@@ -63,6 +82,7 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
     width: { ideal: 100 },
     height: { ideal: 100 }
   };
+
   public errors: WebcamInitError[] = [];
 
   // latest snapshot
@@ -84,7 +104,7 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.WebCam.captureImageData = true;
-    this.WebCam.imageQuality = 0.9;
+    this.WebCam.imageQuality = 0.99;
     this.WebCam.height = 500;
     this.WebCam.width = 500;
     setTimeout(() => {
@@ -93,6 +113,7 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
   }
 
   trainKassenBonNetwork() {
+    // debugger;
     var pixelYesData1 = this.getImageData(this.LD_Yes_1.nativeElement);
     var pixelYesData2 = this.getImageData(this.LD_Yes_2.nativeElement);
     var pixelYesData3 = this.getImageData(this.LD_Yes_3.nativeElement);
@@ -110,25 +131,34 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
     var pixelNoData6 = this.getImageData(this.LD_No_6.nativeElement);
     var pixelNoData7 = this.getImageData(this.LD_No_7.nativeElement);
 
+    console.log("Training start!");
     this.IsKassenZettel_NN.train([
-      { input: this.GetValuesOfRandomPixelInImage(pixelYesData1.data), output: [1] },
-      { input: this.GetValuesOfRandomPixelInImage(pixelNoData7.data) , output: [0] },
-      { input: this.GetValuesOfRandomPixelInImage(pixelYesData2.data) , output: [1] },
-      { input: this.GetValuesOfRandomPixelInImage(pixelNoData1.data) , output: [0] },
-      { input: this.GetValuesOfRandomPixelInImage(pixelYesData3.data), output: [1] },
-      { input: this.GetValuesOfRandomPixelInImage(pixelNoData2.data) , output: [0] },
-      { input: this.GetValuesOfRandomPixelInImage(pixelYesData4.data), output: [1] },
-      { input: this.GetValuesOfRandomPixelInImage(pixelNoData3.data) , output: [0] },
-      { input: this.GetValuesOfRandomPixelInImage(pixelYesData5.data), output: [1] },
-      { input: this.GetValuesOfRandomPixelInImage(pixelNoData4.data) , output: [0] },
-      { input: this.GetValuesOfRandomPixelInImage(pixelYesData6.data), output: [1] },
-      { input: this.GetValuesOfRandomPixelInImage(pixelNoData5.data) , output: [0] },
-      { input: this.GetValuesOfRandomPixelInImage(pixelYesData7.data), output: [1] },
-      { input: this.GetValuesOfRandomPixelInImage(pixelNoData6.data) , output: [0] }
-    ])
+      { input: this.GetPixelOfPattern(pixelYesData1.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [1] },
+      { input: this.GetPixelOfPattern(pixelNoData1.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [0] },
+      { input: this.GetPixelOfPattern(pixelYesData2.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [1] },
+      { input: this.GetPixelOfPattern(pixelNoData2.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [0] },
+      { input: this.GetPixelOfPattern(pixelYesData3.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [1] },
+      { input: this.GetPixelOfPattern(pixelYesData2.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [1] },
+      { input: this.GetPixelOfPattern(pixelNoData3.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [0] },
+      { input: this.GetPixelOfPattern(pixelYesData4.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [1] },
+      { input: this.GetPixelOfPattern(pixelNoData4.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [0] },
+      { input: this.GetPixelOfPattern(pixelNoData2.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [0] },
+      { input: this.GetPixelOfPattern(pixelYesData5.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [1] },
+      { input: this.GetPixelOfPattern(pixelNoData5.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [0] },
+      { input: this.GetPixelOfPattern(pixelYesData1.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [1] },
+      { input: this.GetPixelOfPattern(pixelYesData6.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [1] },
+      { input: this.GetPixelOfPattern(pixelNoData6.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [0] },
+      { input: this.GetPixelOfPattern(pixelNoData1.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [0] },
+      { input: this.GetPixelOfPattern(pixelYesData7.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [1] },
+      { input: this.GetPixelOfPattern(pixelYesData2.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [1] },
+      { input: this.GetPixelOfPattern(pixelNoData7.data, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } }), output: [0] }
+    ], this.learnCOnfig);
+    console.log("Training End");
+    console.log(this.IsKassenZettel_NN.toJSON());
   }
 
   getImageData(image) {
+    console.log(image);
     var canvas = document.createElement('canvas');
     canvas.width = image.width;
     canvas.height = image.height;
@@ -139,6 +169,9 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
 
   public triggerSnapshot(): void {
     this.trigger.next();
+    setTimeout(() => {
+      this.triggerSnapshot();
+    }, 33);
   }
 
   public toggleWebcam(): void {
@@ -161,16 +194,23 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
   }
 
   public handleImage(webcamImage: WebcamImage): void {
+
     // console.log('received webcam image', webcamImage);
+    // debugger;
     const imageData = webcamImage.imageData.data;
     this.webcamImage = webcamImage;
     // const length = imageData.length;
     // var index = 0;
-
-    var ColorValuesForNeuralNet: number[] = [];
-    ColorValuesForNeuralNet = this.GetValuesOfRandomPixelInImage(imageData);
-    var isKassenZettel = this.IsKassenZettel_NN.run(ColorValuesForNeuralNet);
-    if (isKassenZettel[0] > 0.5) {
+   
+    this.callNetLoop(imageData);
+  }
+  callNetLoop(imageData: Uint8ClampedArray) {
+    this.clusterService.getKMeansCluster(20,imageData,0,255);
+    var colorValuesForBonRecognition: number[] = [];
+    colorValuesForBonRecognition = this.GetPixelOfPattern(imageData, 500, ImageFilterPattern.crosshairs, { UntenLinks: { x: 0, y: 0 }, ObenRechts: { x: 100, y: 100 } });
+    var isKassenZettel = this.IsKassenZettel_NN.run(colorValuesForBonRecognition);
+    console.log(isKassenZettel);
+    if (isKassenZettel[0] > 0.6) {
       this.isKassenBonText = "Kassen Zettel wurde erkannt";
       document.getElementById("isKassenBonDiv").style.backgroundColor = "Green";
     } else {
@@ -180,51 +220,27 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
   }
 
 
-  private GetValuesOfRandomPixelInImage(imageData: Uint8ClampedArray) {
-    var ColorValuesForNeuralNet: number[] = [];
-    var index = 0;
-    var length = imageData.length;
-    while (ColorValuesForNeuralNet.length < 500) {
-      index = index + Math.floor((Math.random() * length) + 0);
-      index = index % length;
-      index = index - index % 4;
-      if (index % 4 == 0) {
-        const rot = imageData[index];
-        const blau = imageData[index + 1];
-        const gruen = imageData[index + 2];
-        const alpha = imageData[index + 3];
-        const normal_rot = this.normalizeColor(rot);
-        const normal_blau = this.normalizeColor(blau);
-        const normal_gruen = this.normalizeColor(gruen);
-        const normal_alpha = this.normalizeColor(alpha);
-        const metrik = ((normal_rot + normal_blau + normal_gruen + normal_alpha) / (4));
-        ColorValuesForNeuralNet.push(metrik);
-      }
-    }
-    return ColorValuesForNeuralNet;
-  }
 
 
-  private GetPixelOfPattern(imageData: Uint8ClampedArray, anzahlPixel: number, order: ImageFilterPattern) {
+
+  private GetPixelOfPattern(imageData: Uint8ClampedArray, anzahlPixel: number, order: ImageFilterPattern, imageRect: PixelRect) {
     var ColorValuesForNeuralNet: number[] = [];
-    var index = 0;
-    var length = imageData.length;
     while (ColorValuesForNeuralNet.length < anzahlPixel) {
       switch (order) {
-        case ImageFilterPattern.crosshairs: // crosshair like image
-          ColorValuesForNeuralNet = ColorValuesForNeuralNet.concat(this.GetMainDiagonalPixelsOfImage(imageData, 100));
-          ColorValuesForNeuralNet = ColorValuesForNeuralNet.concat(this.GetAntiDiagonalPixelsOfImage(imageData, 100));
-          ColorValuesForNeuralNet = ColorValuesForNeuralNet.concat(this.GetHorizontalPixelsOfImage(imageData, 100));
-          ColorValuesForNeuralNet = ColorValuesForNeuralNet.concat(this.GetVerticalPixelsOfImage(imageData, 100));
-          // ColorValuesForNeuralNet = ColorValuesForNeuralNet.concat(this.GetRectanglePixelsOfImage(imageData, 100, {}));
+        case ImageFilterPattern.crosshairs: // crosshair like image in Onenote
+
+          ColorValuesForNeuralNet = ColorValuesForNeuralNet.concat(this.GetMainDiagonalPixelsOfImage(imageData, 100, imageRect));
+          ColorValuesForNeuralNet = ColorValuesForNeuralNet.concat(this.GetAntiDiagonalPixelsOfImage(imageData, 100, imageRect));
+          ColorValuesForNeuralNet = ColorValuesForNeuralNet.concat(this.GetHorizontalPixelsOfImage(imageData, 100, imageRect));
+          ColorValuesForNeuralNet = ColorValuesForNeuralNet.concat(this.GetVerticalPixelsOfImage(imageData, 100, imageRect));
+          ColorValuesForNeuralNet = ColorValuesForNeuralNet.concat(this.GetRectanglePixelsOfImage(imageData, 100, imageRect));
           break;
         case ImageFilterPattern.block: // block = RECTANGLE
 
-        break;
+          break;
 
-        case ImageFilterPattern.random: // random wie bisher
-
-        break;
+        case ImageFilterPattern.random: // random
+          break;
         default:
           break;
       }
@@ -233,48 +249,176 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
   }
 
   GetRectanglePixelsOfImage(imageData: Uint8ClampedArray, pixelCount: number, imageRect: PixelRect): number[] {
-    
+    var returner: number[] = [];
+    const spaltenLaenge = 4;
+    const zeilenLaenge = (imageRect.ObenRechts.x - imageRect.UntenLinks.x) * spaltenLaenge;
+    const spaltenAnzahl = imageRect.ObenRechts.y - imageRect.UntenLinks.y;
+    const zeilenAnzahl = imageRect.ObenRechts.x - imageRect.UntenLinks.x;
+    const mittlereSpalte = Math.round(spaltenAnzahl / 2);
+    const mittlereZeile = Math.round(zeilenAnzahl / 2);
+    const obenLinks = [mittlereSpalte - 12, mittlereZeile - 12];
+    const untenRechts = [mittlereSpalte + 12, mittlereZeile + 12];
+    const streckenCount = Math.round(pixelCount / 4);
+    // * 
+    // .
+    // .
+    // .
+    for (let index = 0; index < streckenCount; index++) {
+      const i = obenLinks[0] + index;
+      const jndex = obenLinks[1];
+      // index == index ist die Diagonale (0,50), (1,50), (2,50), (3,50)
+      const arrayIndex = this.getArrayIndexFromMatrixIndixes(i, jndex, zeilenLaenge, spaltenLaenge);
+      const rot: FarbMenge = { wert: imageData[arrayIndex + 1], min: 0, max: 255 };
+      const gelb: FarbMenge = { wert: imageData[arrayIndex + 2], min: 0, max: 255 };
+      const blau: FarbMenge = { wert: imageData[arrayIndex + 3], min: 0, max: 255 };
 
 
+      const maß = this.maßOfRGBService.getMaßRGB(rot, gelb, blau);
+      returner.push(maß);
+    }
+    // * .  .   . 
+    // .
+    // .
+    // .
+    for (let index = 0; index < streckenCount; index++) {
+      const i = obenLinks[0];
+      const jndex = obenLinks[1] + index;
+      // index == index ist die Diagonale (0,50), (1,50), (2,50), (3,50)
+      const arrayIndex = this.getArrayIndexFromMatrixIndixes(i, jndex, zeilenLaenge, spaltenLaenge);
+      const rot: FarbMenge = { wert: imageData[arrayIndex + 1], min: 0, max: 255 };
+      const gelb: FarbMenge = { wert: imageData[arrayIndex + 2], min: 0, max: 255 };
+      const blau: FarbMenge = { wert: imageData[arrayIndex + 3], min: 0, max: 255 };
 
+
+      const maß = this.maßOfRGBService.getMaßRGB(rot, gelb, blau);
+      returner.push(maß);
+    }
+    // * .  .   . .
+    // .          .
+    // .          .
+    // .          *
+    for (let index = 0; index < streckenCount; index++) {
+      const i = untenRechts[0] - index;
+      const jndex = untenRechts[1];
+      // index == index ist die Diagonale (0,50), (1,50), (2,50), (3,50)
+      const arrayIndex = this.getArrayIndexFromMatrixIndixes(i, jndex, zeilenLaenge, spaltenLaenge);
+      const rot: FarbMenge = { wert: imageData[arrayIndex + 1], min: 0, max: 255 };
+      const gelb: FarbMenge = { wert: imageData[arrayIndex + 2], min: 0, max: 255 };
+      const blau: FarbMenge = { wert: imageData[arrayIndex + 3], min: 0, max: 255 };
+
+
+      const maß = this.maßOfRGBService.getMaßRGB(rot, gelb, blau);
+      returner.push(maß);
+    }
+    // * .  .   . .
+    // .          .
+    // .          .
+    // .  . . . . *
+    for (let index = 0; index < streckenCount; index++) {
+      const i = untenRechts[0];
+      const jndex = untenRechts[1] - index;
+      // index == index ist die Diagonale (0,50), (1,50), (2,50), (3,50)
+      const arrayIndex = this.getArrayIndexFromMatrixIndixes(i, jndex, zeilenLaenge, spaltenLaenge);
+      const rot: FarbMenge = { wert: imageData[arrayIndex + 1], min: 0, max: 255 };
+      const gelb: FarbMenge = { wert: imageData[arrayIndex + 2], min: 0, max: 255 };
+      const blau: FarbMenge = { wert: imageData[arrayIndex + 3], min: 0, max: 255 };
+
+
+      const maß = this.maßOfRGBService.getMaßRGB(rot, gelb, blau);
+      returner.push(maß);
+    }
+    return returner;
+  }
+
+  GetVerticalPixelsOfImage(imageData: Uint8ClampedArray, pixelCount: number, imageRect: PixelRect): number[] {
+    var returner: number[] = [];
+    const spaltenLaenge = 4;
+    const zeilenLaenge = (imageRect.ObenRechts.x - imageRect.UntenLinks.x) * spaltenLaenge;
+    const spaltenAnzahl = (imageRect.ObenRechts.y - imageRect.UntenLinks.y);
+    const mittlereSpalte = Math.round(spaltenAnzahl / 2);
+    for (let index = 0; index < pixelCount; index++) {
+      const jndex = mittlereSpalte;
+      // index == index ist die Diagonale (0,50), (1,50), (2,50), (3,50)
+      const arrayIndex = this.getArrayIndexFromMatrixIndixes(index, jndex, zeilenLaenge, spaltenLaenge);
+      const rot: FarbMenge = { wert: imageData[arrayIndex + 1], min: 0, max: 255 };
+      const gelb: FarbMenge = { wert: imageData[arrayIndex + 2], min: 0, max: 255 };
+      const blau: FarbMenge = { wert: imageData[arrayIndex + 3], min: 0, max: 255 };
+
+
+      const maß = this.maßOfRGBService.getMaßRGB(rot, gelb, blau);
+      returner.push(maß);
+    }
+    return returner;
+  }
+  GetHorizontalPixelsOfImage(imageData: Uint8ClampedArray, pixelCount: number, imageRect: PixelRect): number[] {
+    var returner: number[] = [];
+    const spaltenLaenge = 4;
+    const zeilenLaenge = (imageRect.ObenRechts.x - imageRect.UntenLinks.x) * spaltenLaenge;
+    const zeilenAnzahl = (imageRect.ObenRechts.x - imageRect.UntenLinks.x);
+    const mittlereZeile = Math.round(zeilenAnzahl / 2);
+    for (let index = 0; index < pixelCount; index++) {
+      const jndex = mittlereZeile;
+      // index == index ist die Diagonale (50,1), (50,2), (50,3), (50,4)
+      const arrayIndex = this.getArrayIndexFromMatrixIndixes(jndex, index, zeilenLaenge, spaltenLaenge);
+      const rot: FarbMenge = { wert: imageData[arrayIndex + 1], min: 0, max: 255 };
+      const gelb: FarbMenge = { wert: imageData[arrayIndex + 2], min: 0, max: 255 };
+      const blau: FarbMenge = { wert: imageData[arrayIndex + 3], min: 0, max: 255 };
+
+
+      const maß = this.maßOfRGBService.getMaßRGB(rot, gelb, blau);
+      returner.push(maß);
+    }
+    return returner;
+  }
+  GetAntiDiagonalPixelsOfImage(imageData: Uint8ClampedArray, pixelCount: number, imageRect: PixelRect): number[] {
+    var returner: number[] = [];
+    const spaltenLaenge = 4;
+    const zeilenLaenge = (imageRect.ObenRechts.x - imageRect.UntenLinks.x) * spaltenLaenge;
+
+    const spaltenAnzahl = (imageRect.ObenRechts.y - imageRect.UntenLinks.y);
+    for (let index = 0; index < pixelCount; index++) {
+      const jndex = spaltenAnzahl - index;
+      // index == index ist die Diagonale (0,100), (1,99), (2,98), (3,97)
+      const arrayIndex = this.getArrayIndexFromMatrixIndixes(index, jndex, zeilenLaenge, spaltenLaenge);
+      const rot: FarbMenge = { wert: imageData[arrayIndex + 1], min: 0, max: 255 };
+      const gelb: FarbMenge = { wert: imageData[arrayIndex + 2], min: 0, max: 255 };
+      const blau: FarbMenge = { wert: imageData[arrayIndex + 3], min: 0, max: 255 };
+
+
+      const maß = this.maßOfRGBService.getMaßRGB(rot, gelb, blau);
+      returner.push(maß);
+    }
+    return returner;
     throw new Error("Method not implemented.");
   }
-  GetVerticalPixelsOfImage(imageData: Uint8ClampedArray, pixelCount: number): number[] {
-    throw new Error("Method not implemented.");
-  }
-  GetHorizontalPixelsOfImage(imageData: Uint8ClampedArray, pixelCount: number): number[] {
-    throw new Error("Method not implemented.");
-  }
-  GetAntiDiagonalPixelsOfImage(imageData: Uint8ClampedArray, pixelCount: number): number[] {
-    throw new Error("Method not implemented.");
-  }
-  GetMainDiagonalPixelsOfImage(imageData: Uint8ClampedArray, pixelCount: number): number[] {
-    throw new Error("Method not implemented.");    
-  }
 
-  private getMetrikOfRGBA(rot: number, blau: number, gruen: number, alpha: number, index: number) {
-    const normal_rot = this.normalizeColor(rot);
-    const normal_blau = this.normalizeColor(blau);
-    const normal_gruen = this.normalizeColor(gruen);
-    const normal_alpha = this.normalizeColor(alpha);
-    const metrik = ((normal_rot + normal_blau + normal_gruen + normal_alpha) / (4));
-    return metrik;
-  }
-
-  private getRandomPixelInRect(rect: PixelRect, pixelArray: Uint8ClampedArray, imageRect: PixelRect) {
-    const indexGlobalColumn = imageRect.ObenRechts.x - imageRect.UntenLinks.x;
-    const indexGlobalRow = imageRect.UntenLinks.y - imageRect.ObenRechts.y;
-
-    const indexLocalColumn = rect.ObenRechts.x - rect.UntenLinks.x;
-    const indexLocalRow = rect.UntenLinks.y - rect.ObenRechts.y;
+  GetMainDiagonalPixelsOfImage(imageData: Uint8ClampedArray, pixelCount: number, imageRect: PixelRect): number[] {
+    var returner: number[] = [];
+    const spaltenLaenge = 4;
+    const zeilenLaenge = (imageRect.ObenRechts.x - imageRect.UntenLinks.x) * spaltenLaenge;
+    for (let index = 0; index < pixelCount; index++) {
+      const jndex = index;
+      // index == jndex ist die Diagonale (0,0), (1,1), (2,2), (3,3)
+      const arrayIndex = this.getArrayIndexFromMatrixIndixes(index, jndex, zeilenLaenge, spaltenLaenge);
+      const rot: FarbMenge = { wert: imageData[arrayIndex + 1], min: 0, max: 255 };
+      const gelb: FarbMenge = { wert: imageData[arrayIndex + 2], min: 0, max: 255 };
+      const blau: FarbMenge = { wert: imageData[arrayIndex + 3], min: 0, max: 255 };
 
 
-
+      const maß = this.maßOfRGBService.getMaßRGB(rot, gelb, blau);
+      // returner.push(imageData[arrayIndex+0] / 255.0); //r
+      // returner.push(imageData[arrayIndex+1]); //g
+      // returner.push(imageData[arrayIndex+2]); //b
+      returner.push(maß);
+    }
+    return returner;
   }
 
-  normalizeColor(color: number) {
-    return (color) / (255);
+getArrayIndexFromMatrixIndixes(zeile: number, spalte: number, zeilenLaenge: number, spaltenLaenge: number) {
+    return (zeile) * zeilenLaenge + (spalte) * spaltenLaenge;
   }
+
+
 
   public cameraWasSwitched(deviceId: string): void {
     console.log('active device: ' + deviceId);
@@ -293,7 +437,7 @@ export class CameraOCRComponent implements OnInit, AfterViewInit {
   // filename is the filename<br/>
   // what I did is use iFrame as a buffer, fill it up with text
   private save_content_to_file(content, filename) {
-    
+
   }
 }
 
@@ -311,7 +455,7 @@ interface PixelPoint {
 
 // enum ImageFilterPattern = 'crosshrairs' | 'random' | 'block' | 'all';
 
-enum ImageFilterPattern{
+enum ImageFilterPattern {
   crosshairs,
   random,
   block,
