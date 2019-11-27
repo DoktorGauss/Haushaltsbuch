@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { MaßOfRGBService, FarbMenge, RGBMenge } from './maßof-rgb.service';
 
-fdescribe('MaßOfRGBService', () => {
+describe('MaßOfRGBService', () => {
   let service: MaßOfRGBService;
 
   beforeEach(() => TestBed.configureTestingModule({}));
@@ -132,6 +132,14 @@ fdescribe('MaßOfRGBService', () => {
         expect(maß).toBe(256*256);
       });
 
+      it('maß of (255,255,255) => 16777215' ,() => {
+        const rot: FarbMenge = { wert: 255, min:0 , max:255};
+        const gelb: FarbMenge = { wert: 255, min:0 , max:255};
+        const blau: FarbMenge = { wert: 255, min:0 , max:255};
+        const maß = service.getPseudoMaßRGB(rot,gelb,blau);
+        expect(maß).toBe(16777215);
+      });
+
 
       
      
@@ -153,8 +161,18 @@ fdescribe('MaßOfRGBService', () => {
                 }
               }
             }
-            expect(sum).toBe((256*256*256)/2.0)
+            expect(sum).toBe((256*256*256 - 1)/2.0)
         });
+
+        it('each maß value got a rgb value (surjektiv)', () => {
+          var values: RGBMenge[]=[];
+          for (let index = 0; index <  256*256*256 - 1; index++) {
+            const rgb = service.getMaßRGB_opposed(index);
+            if(values.find( e => e.b == rgb.b && e.g == rgb.g && e.r == rgb.r) != null)   values.push(rgb);
+          }
+          const size = values.length;
+          expect(size).toBe(256*256*256 - 1);
+        })
     });
   });
 });

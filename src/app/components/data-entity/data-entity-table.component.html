@@ -1,49 +1,53 @@
+<div class="example-container mat-elevation-z8">
+<table mat-table [dataSource]="data" class="mat-elevation-z8">
 
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
 
+  <!-- Position Column -->
+  <ng-container matColumnDef="ID">
+    <th mat-header-cell *matHeaderCellDef> ID </th>
+    <td mat-cell *matCellDef="let element"> {{element.ID.value}} </td>
+  </ng-container>
 
-<!-- export class DataEntity {
-    // details
-    ProductName: string;
-    // Primary Key
-    DataID: number; // if we make a Card from DataID, the Card is just the Entity
-    // or
-    Datum: Date; // Card from Dates, Tagesgeschäft
+  <!-- Name Column -->
+  <ng-container matColumnDef="NAME">
+    <th mat-header-cell *matHeaderCellDef> Name </th>
+    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+  </ng-container>
 
-    // ForeignKey
-    PID: number; // produkt  Card over product id
-    Type: DataType; // card over data type
-    HerkunftID: number; // card over laden id
-    
+  <!-- Weight Column -->
+  <ng-container matColumnDef="Datum">
+    <th mat-header-cell *matHeaderCellDef> Datum </th>
+    <td mat-cell *matCellDef="let element"> {{element.Datum.value}} </td>
+  </ng-container>
 
-    // Visible for end user  // Power
-    Menge: number; 
-    PreisPS: number; 
-    PreisEinkauf: number;
-} -->
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="PID">
+    <th mat-header-cell *matHeaderCellDef> ProduktID </th>
+    <td mat-cell *matCellDef="let element"> {{element.PID.value}} </td>
+  </ng-container>
 
-
-
-
-
-<ejs-grid  [dataSource]='data' [height]="height" [allowPaging]='allowPaging' [allowSorting]='allowSorting' [allowFiltering]='allowFiltering' >
-  <e-columns>
-      <e-column field='DataID' headerText='ID' textAlign='Left' width='50'></e-column>
-      <e-column field='DatumString' headerText='Datum' textAlign='Left' width='50'></e-column>
-      <e-column field='ProductName' headerText='Produkt Name' textAlign='center' width='120'></e-column>
-      <!-- <e-column field='PID' headerText='ProduktID' textAlign='Left' width='70'></e-column> -->
-      <e-column field='Type' headerText='ProduktTyp' textAlign='Left' width='70'></e-column>
-      <e-column field='HerkunftID' headerText='HerkunftID' textAlign='Left' width='70'></e-column>
-
-      <e-column field='Menge' headerText='Menge' textAlign='center'  width='50'></e-column>
-      <e-column field='PreisPS' headerText='Preis Stück[€]' textAlign='right' format='n3' width='70'></e-column>
-      <!-- <e-column field='Preis' headerText='Preis insgesamt' format='c' width='140'></e-column> -->
-      <e-column field='PreisEinkauf' headerText='Preis Einkauf[€]' format='n3' textAlign='right'  width='70'></e-column>
-  </e-columns>
+  <ng-container matColumnDef="Type">
+    <th mat-header-cell *matHeaderCellDef> Type </th>
+    <td mat-cell *matCellDef="let element"> {{element.Type.value}} </td>
+  </ng-container>
   
+  <ng-container matColumnDef="HerkunftID">
+    <th mat-header-cell *matHeaderCellDef> HerkunftID </th>
+    <td mat-cell *matCellDef="let element"> {{element.HerkunftID.value}} </td>
+  </ng-container>
 
+  <ng-container matColumnDef="PreisPS">
+    <th mat-header-cell *matHeaderCellDef> PreisPS </th>
+    <td mat-cell *matCellDef="let element"> {{element.Werte.PreisPS}} </td>
+  </ng-container>
 
-
-</ejs-grid> 
+  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</table>
+</div>
 <table id="ActionTable">
   <tr>
     <td class="left_button_cell"><button  class="inner_button" id="Button1" mat-button  (click)="minimizeTable()">up</button></td>

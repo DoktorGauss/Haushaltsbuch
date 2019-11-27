@@ -34,9 +34,9 @@ export class DataEntityCardComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     if (this.dataEntityCard) {
-      this.ProduktName = this.dataEntityCard.Value.ProductName;
-      this.Value = this.dataEntityCard.Value.PreisPS;
-      this.CardTitle = this.dataEntityCard.getCardTitle();
+      this.ProduktName = this.dataEntityCard.CurrentValue.name;
+      this.Value = this.dataEntityCard.CurrentValue.Werte.PreisPS;
+      this.CardTitle = this.dataEntityCard.CurrentValue.name;
       this.DurchschnittValue = Number(this.statistikerService.calcMean( this.dataEntityService.createArray(this.dataEntityCard.PastValues, this.UeberschriftValue) ).toPrecision(2));
       this.updatePastDiv();
       this.updatePostDiv();

@@ -27,20 +27,19 @@ export class DataEntityService {
     for (let index = 0; index < tmpDataEntityListJson.length; index++) {  // gehe durch jedes Json
       const element = tmpDataEntityListJson[index]; // aktuelle Json
       var tmp: DataEntity = new DataEntity();
-      tmp.DataID = element['DataID'];
-      tmp.Menge = element['Menge'];
-      tmp.PID = element['PID'];
-      tmp.PreisEinkauf = element['PreisEinkauf'];
-      tmp.PreisPS = element['PreisPS'];
-      tmp.ProductName = element['ProductName'];
-      tmp.Datum = new Date(element['DatumString']);
-      tmp.DatumString = element['DatumString'];
-      tmp.HerkunftID = element['HerkunftID'];
-      tmp.Type = element["Type"];
+      tmp.ID.value = element['DataID'];
+      tmp.Werte.Menge = element['Menge'];
+      tmp.PID.value = element['PID'];
+      tmp.Werte.PreisEinkauf = element['PreisEinkauf'];
+      tmp.Werte.PreisPS = element['PreisPS'];
+      tmp.NAME.value = element['ProductName'];
+      tmp.Datum.value = new Date(element['DatumString']);
+      tmp.HerkunftID.value = element['HerkunftID'];
+      tmp.Type.value = element["Type"];
       if(index>= 1){
-        tmp.DeltaPreis = tmp.PreisPS - dataEntityListClass[index-1].PreisPS;
+        tmp.Werte.DeltaPreis = tmp.Werte.PreisPS - dataEntityListClass[index-1].Werte.PreisPS;
       } else {
-        tmp.DeltaPreis = 0;
+        tmp.Werte.DeltaPreis = 0;
       }
       dataEntityListClass.push(tmp); // JSON ==> Class    
     }
@@ -53,22 +52,22 @@ export class DataEntityService {
       const element = dataEntities[index];
       switch (attribute) {
         case "DataID":
-          returner.push(element.DataID);
+          returner.push(element.ID.value);
           break;
         case "PID":
-          returner.push(element.PID);
+          returner.push(element.PID.value);
           break;
         case "ProductName":
-          returner.push(element.ProductName);
+          returner.push(element.NAME.value)
           break;
         case "Datum":
-          returner.push(element.Datum);
+          returner.push(element.Datum.value);
           break;
         case "PreisPS":
-          returner.push(element.PreisPS);
+          returner.push(element.Werte.PreisPS);
           break;
           case "DeltaPreis":
-          returner.push(element.DeltaPreis);
+          returner.push(element.Werte.DeltaPreis);
           break;
         default:
           break;

@@ -1,57 +1,5 @@
-<head>
-  <script></script>
-</head>
+
 <p>
   camera-ocr works!
 </p>
 
-<div style="text-align:center">
-  <div>
-    <webcam id="Video" #Video [height]="500" [width]="500" [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showWebcam"
-            [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable"
-            [videoOptions]="videoOptions"
-            [imageQuality]="1"
-            (cameraSwitched)="cameraWasSwitched($event)"
-            (initError)="handleInitError($event)"
-    ></webcam>
-    <br/>
-    <button class="actionBtn" (click)="triggerSnapshot();">Take A Snapshot</button>
-    <button class="actionBtn" (click)="toggleWebcam();">Toggle Webcam</button>
-    <button class="actionBtn" (click)="OCR();">make OCR</button>
-    <br/>
-    <!-- <button class="actionBtn" (click)="showNextWebcam(true);" [disabled]="!multipleWebcamsAvailable">Next Webcam</button>
-    <input id="cameraSwitchCheckbox" type="checkbox" [(ngModel)]="allowCameraSwitch"><label for="cameraSwitchCheckbox">Allow Camera Switch</label>
-    <br/>
-    DeviceId: <input id="deviceId" type="text" [(ngModel)]="deviceId" style="width: 500px">
-    <button (click)="showNextWebcam(deviceId);">Activate</button> -->
-  </div>
-  <div #isKassenBonDiv id="isKassenBonDiv" style="border-block: 1px; border-block-color: black; background-color: gold"> {{isKassenBonText}}</div>
-</div>
-
-<div id="SnapShot" class="snapshot" *ngIf="webcamImage">
-  <h2>Nice one!</h2>
-  <img [src]="webcamImage.imageAsDataUrl"/>
-</div>
-
-<h4 *ngIf="errors.length > 0">Messages:</h4>
-<ul *ngFor="let error of errors">
-  <li>{{error | json}}</li>
-</ul>
-
-
-<img #LD_Yes_1 id="LD_Yes_1" src="../../../assets/LearningData/IsKassenBon/KassenBon_1.jpg"> 
-<img #LD_Yes_2 id="LD_Yes_2" src="../../../assets/LearningData/IsKassenBon/KassenBon_2.jpg"> 
-<img #LD_Yes_3 id="LD_Yes_3" src="../../../assets/LearningData/IsKassenBon/KassenBon_3.jpg"> 
-<img #LD_Yes_4 id="LD_Yes_4" src="../../../assets/LearningData/IsKassenBon/KassenBon_4.jpg"> 
-<img #LD_Yes_5 id="LD_Yes_5" src="../../../assets/LearningData/IsKassenBon/KassenBon_5.jpg"> 
-<img #LD_Yes_6 id="LD_Yes_6" src="../../../assets/LearningData/IsKassenBon/KassenBon_6.jpg"> 
-<img #LD_Yes_7 id="LD_Yes_7" src="../../../assets/LearningData/IsKassenBon/KassenBon_7.jpg"> 
-
-
-<img #LD_No_1 id="LD_No_1"  src="../../../assets/LearningData/NoKassenBon/NoKassenBon_1.jpg"> 
-<img #LD_No_2 id="LD_No_2"  src="../../../assets/LearningData/NoKassenBon/NoKassenBon_2.jpg"> 
-<img #LD_No_3 id="LD_No_3"  src="../../../assets/LearningData/NoKassenBon/NoKassenBon_3.jpg"> 
-<img #LD_No_4 id="LD_No_4"  src="../../../assets/LearningData/NoKassenBon/NoKassenBon_4.jpg">
-<img #LD_No_5 id="LD_No_5"  src="../../../assets/LearningData/NoKassenBon/NoKassenBon_5.jpg">
-<img #LD_No_6 id="LD_No_6"  src="../../../assets/LearningData/NoKassenBon/NoKassenBon_6.jpg">
-<img #LD_No_7 id="LD_No_7"  src="../../../assets/LearningData/NoKassenBon/NoKassenBon_7.jpg">

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { DataEntityService } from './data-entity.service';
 import { DataEntityCard } from '../models/data-entity-card.model';
 import { DataEntity } from '../models/data-entity.model';
+import { SecondaryKey } from '../shared/models/secundary-key';
 
 @Injectable({
   providedIn: 'root'
@@ -35,10 +36,11 @@ export class DataEntityCardService {
       }
       //Wir haben noch einen (den zweiten) Array befüllt, in dem jedes Element den gleichen Foreign Key hat.
       tmpEntityList.sort( (e1,e2) => e1.dataId - e2.dataId); // sortiere zweiten array nach der ID (setzt Chronologie fest) Primary Key
-      var tmp = new DataEntityCard(DataEntityCardComponent,foreignKey, "DataID" ); // erstelle neue Card
-      tmp.Value = tmpEntityList[tmpEntityList.length-1]; // aktuelle Value ist der letzte in der Liste
+      const secondaryKey = SecondaryKey.create('DataID', foreignKey, 'DataID');
+      var tmp = new DataEntityCard(DataEntityCardComponent,secondaryKey ); // erstelle neue Card
+      tmp.CurrentValue = tmpEntityList[tmpEntityList.length-1]; // aktuelle Value ist der letzte in der Liste
       tmp.PastValues = tmpEntityList; // Die vergangenen Values sind alle in der Liste
-      tmp.PostValue = new DataEntity(); // der geschätze Value kommt noch   
+      tmp.PostValues = [new DataEntity()]; // der geschätze Value kommt noch   
       tmpCardList.push(tmp); // erstelle Card aus der Liste und Pushe die Card dem returner hinzu
     } // Liste wird immer leerer durch das löschen. Mache das solange die Liste befüllt ist.
 

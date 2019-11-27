@@ -1,5 +1,5 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';  // must have
-import { MatListModule,MatButtonModule, MatCheckboxModule } from '@angular/material'; // must have
+import { MatListModule,MatButtonModule, MatCheckboxModule, MatTableModule } from '@angular/material'; // must have
 import { BrowserModule } from '@angular/platform-browser'; // must have 
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'; // must have 
 import { AppComponent } from './app.component'; // must have
@@ -31,6 +31,7 @@ import { FormsModule } from '@angular/forms';
     BrowserAnimationsModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatTableModule,
     FormsModule,
     WebcamModule
     ],

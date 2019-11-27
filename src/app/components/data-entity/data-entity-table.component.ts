@@ -10,9 +10,11 @@ import { DataEntity } from '../../models/data-entity.model';
 })
 export class DataEntityTableComponent implements OnInit {
 
-  public data: DataEntity[];
+  public data: DataEntity[] = [];
   public filterSettings: Object;
   public height;
+  displayedColumns: string[] = ['ID', 'NAME', 'Datum', 'PID','Type', 'HerkunftID', 'PreisPS'];
+
   public textfield: string;
   // [allowPaging]='allowPaging' [allowSorting]='allowSorting' [allowFiltering]='allowFiltering'
   public allowPaging = true;
@@ -29,7 +31,10 @@ export class DataEntityTableComponent implements OnInit {
 
   ngOnInit() {
     this.filterSettings = { type: 'CheckBox' };
-    this.data = this.dataEntityService.dataEntityListJSON;
+    // this.data = this.dataEntityService.dataEntityListJSON;
+    this.dataEntityService.dataEntityListJSON.forEach(element => {
+      this.data.push(DataEntity.parseJSON(element));
+    });
   }
 
   onKeydown(event) {
