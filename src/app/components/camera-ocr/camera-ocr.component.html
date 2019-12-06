@@ -1,5 +1,22 @@
+<div style="text-align:center">
+  <div>
+    <webcam id="Video" #Video [height]="500" [width]="500" [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showWebcam"
+            [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable"
+            [videoOptions]="videoOptions"
+            [imageQuality]="1"
+            (cameraSwitched)="cameraWasSwitched($event)"
+            (initError)="handleInitError($event)"
+    ></webcam>
+    <br/>
+      <button class="actionBtn" (click)="triggerSnapshot();">Take A Snapshot</button>
+      <button class="actionBtn" (click)="toggleWebcam();">Toggle Webcam</button>
+      <button class="actionBtn" (click)="OCR();">make OCR</button>
+    <br/>
+  </div>
+  <div #isKassenBonDiv id="isKassenBonDiv" style="border-block: 1px; border-block-color: black; background-color: gold"> {{isKassenBonText}}</div>
+</div>
 
-<p>
-  camera-ocr works!
-</p>
-
+<div id="SnapShot" class="snapshot" *ngIf="webcamImage">
+  <h2>Nice one!</h2>
+  <img [src]="webcamImage.imageAsDataUrl"/>
+</div>

@@ -5,6 +5,9 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class PixelOfImageService {
+  init() {
+    throw new Error("Method not implemented.");
+  }
 
   PatternRect: PixelRect;
   FilterPattern: ImageFilterPattern;

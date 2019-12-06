@@ -14,7 +14,7 @@ enum DataType {
     GescheatzerLohn = "GescheatzerLohn"
 }
 
-interface AbhängigeVariable {
+export interface AbhängigeVariable {
     Menge: number;
     PreisPS: number;
     PreisEinkauf: number;
